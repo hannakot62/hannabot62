@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "eslint": "^8.41.0",
+    "node-telegram-bot-api": "^0.61.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
+  },
+  "name": "hannabot62",
+  "description": "tg bot for fun",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hannakot62",
+  "license": "ISC"
+}
