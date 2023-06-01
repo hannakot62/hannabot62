@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "dotenv": "^16.1.2",
     "eslint": "^8.41.0",
     "node-telegram-bot-api": "^0.61.0",
     "nodemon": "^2.0.22",
@@ -9,9 +10,9 @@
   "description": "tg bot for fun",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "hannakot62",
   "license": "ISC"
