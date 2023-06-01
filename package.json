@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^1.4.0",
     "dotenv": "^16.1.2",
     "eslint": "^8.41.0",
     "node-telegram-bot-api": "^0.61.0",
@@ -15,5 +16,6 @@
     "start": "node index.js"
   },
   "author": "hannakot62",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module"
 }
