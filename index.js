@@ -61,7 +61,7 @@ bot.on(message('text'), async ctx => {
         }
         case '/cat': {
             const pictureURL = await pictureRequest('cat')
-            bot.sendPhoto(chatId, pictureURL)
+            await ctx.replyWithPhoto(pictureURL)
             break
         }
         case '/dog': {

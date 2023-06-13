@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { weatherEmojiMap } from '../const/weatherEmoji.js'
 import dayjs from 'dayjs'
 
@@ -25,20 +24,3 @@ export function getWeatherText(weatherObj) {
 function getIcon(weatherObj) {
     return weatherEmojiMap.get(weatherObj.weather[0].icon)
 }
-
-// {
-//     coord: { lon: 26.707, lat: 54.9083 },
-//     weather: [ { id: 804, main: 'Clouds', description: 'пасмурно', icon: '04d' } ],
-//         base: 'stations',
-//     main: {
-//     temp: 293.04,
-//         feels_like: 292.21,
-//         temp_min: 293.04,
-//         clouds: { all: 100 },
-//     dt: 1686654951,
-//         sys: { country: 'BY', sunrise: 1686620094, sunset: 1686682291 },
-//     timezone: 10800,
-//         id: 624804,
-//         name: 'Нарочь',
-//         cod: 200
-// }
