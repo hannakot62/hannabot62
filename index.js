@@ -1,14 +1,13 @@
-import TelegramAPI from 'node-telegram-bot-api'
+import { Telegraf } from 'telegraf'
+import { message } from 'telegraf/filters'
+import { helpText } from './const/helpText.js'
 import { btnOptions } from './options.js'
 import 'dotenv/config'
 import { pictureRequest } from './requests/pictureRequest.js'
-import { helpText } from './helpers/helpText.js'
-import stickersMap from './helpers/stickersMap.js'
+import stickersMap from './const/stickersMap.js'
 import { weatherRequest } from './requests/weatherRequest.js'
 
 const token = process.env.TELEGRAM_BOT_ACCESS_TOKEN
-import { Telegraf } from 'telegraf'
-import { message } from 'telegraf/filters'
 
 const bot = new Telegraf(token)
 bot.telegram.setMyCommands([
@@ -56,7 +55,8 @@ bot.on(message('text'), async ctx => {
             //     erroe => console.log(erroe)
             // )
             // // console.log(data)
-            await weatherRequest('Нарочь')
+            const response = await weatherRequest('Нарочь')
+            await ctx.reply(response)
             break
         }
         case '/cat': {
