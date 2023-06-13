@@ -15,7 +15,7 @@ export const pictureRequest = async searchQuery => {
         .then(function (response) {
             // обработка успешного запроса
             const rand = Math.floor(Math.random() * 80)
-            pictureURL = response.data.photos[rand].src.medium
+            pictureURL = response.data.photos[rand].src.large
         })
     return pictureURL
 }
