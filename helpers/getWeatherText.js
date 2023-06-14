@@ -2,7 +2,7 @@ import { weatherEmojiMap } from '../const/weatherEmoji.js'
 import dayjs from 'dayjs'
 
 export function getWeatherText(weatherObj) {
-    const icon = getIcon(weatherObj)
+    const icon = getIcon(weatherObj) ?? ''
     const sunrise = dayjs.unix(weatherObj.sys.sunrise).format('HH:mm')
     const sunset = dayjs.unix(weatherObj.sys.sunset).format('HH:mm')
 

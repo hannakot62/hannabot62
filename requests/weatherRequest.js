@@ -8,14 +8,11 @@ export const weatherRequest = async cityName => {
             `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=ru&units=metric&appid=${process.env.WEATHER_ACCESS_TOKEN}`
         )
         .then(function (response) {
-            // обработка успешного запроса
-            // console.log(response.data)
             result = getWeatherText(response.data)
         })
         .catch(err => {
             console.log('bad city')
             result = 'Я пока не знаю такого населённого пункта'
         })
-
     return result
 }
