@@ -8,7 +8,7 @@ export function getEventsText(events) {
     events.forEach(event => {
         event.date = dayjs(event.date).format('DD/MM/YYYY')
         let item = `
-📌Название: ${event.name}
+📌<b><em>Название: ${event.name}</em></b>
 🗓️Когда: ${weekDaysTranslationMap.get(event.day)} ${event.date}
 
 `

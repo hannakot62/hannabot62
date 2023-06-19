@@ -18,7 +18,7 @@ cityEvents.on('text', async ctx => {
     const events = await eventsRequest(cityObj.country)
     const eventsText = getEventsText(events)
 
-    await ctx.reply(eventsText)
+    await ctx.replyWithHTML(eventsText)
     return ctx.scene.leave()
 })
 

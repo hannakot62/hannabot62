@@ -3,7 +3,7 @@ export function getAttractionsText(attractions) {
 
     attractions.forEach(attraction => {
         if (attraction.properties.name) {
-            let item = `⭐${attraction.properties.name}
+            let item = `<b><em>⭐${attraction.properties.name}</em></b>
 📍Координаты: ${attraction.geometry.coordinates[0]}, ${attraction.geometry.coordinates[1]}
 
 `

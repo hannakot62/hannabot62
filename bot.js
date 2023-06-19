@@ -9,6 +9,7 @@ import { attractionsScene } from './scenes/attractionsScene.js'
 
 import { BotCommands } from './commands/BotCommands.js'
 import { eventsScene } from './scenes/eventsScene.js'
+import { foodScene } from './scenes/foodScene.js'
 
 export const setup = db => {
     // session middleware MUST be initialized
@@ -18,7 +19,8 @@ export const setup = db => {
     const stage = new Scenes.Stage([
         weatherScene,
         attractionsScene,
-        eventsScene
+        eventsScene,
+        foodScene
     ])
     bot.use(stage.middleware())
 
@@ -42,7 +44,9 @@ export const setup = db => {
     bot.action('/events', async ctx => {
         await ctx.scene.enter('eventsScene')
     })
-    bot.action('/food', async ctx => {})
+    bot.action('/food', async ctx => {
+        await ctx.scene.enter('foodScene')
+    })
 
     bot.on(message('text'), async ctx => {
         console.log(ctx.message)
@@ -74,7 +78,8 @@ export const setup = db => {
             }
             case '/recommend': {
                 await ctx.reply(
-                    'Я могу предложить тебе достопримечательности в выбранном тобой городе, события - в стране и  места, где можно поесть, по твоей геолокации. Выбирай!',
+                    'Могу предложить тебе список достопримечательностей, событий или' +
+                        ' мест, где можно вкусно поесть, по городу, который ты укажешь. Выбирай!🤗',
                     Markup.inlineKeyboard([
                         [
                             Markup.button.callback(

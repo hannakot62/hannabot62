@@ -18,7 +18,7 @@ cityAttractions.on('text', async ctx => {
     const attractions = await attractionsRequest(cityObj.lat, cityObj.lon)
     const attractionsText = getAttractionsText(attractions)
 
-    await ctx.reply(attractionsText)
+    await ctx.replyWithHTML(attractionsText)
     return ctx.scene.leave()
 })
 
