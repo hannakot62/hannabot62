@@ -6,6 +6,5 @@ export async function cityRequest(city) {
         { params: { name: city } }
     )
     let cityObj = await response.data
-    console.log(cityObj)
     return cityObj
 }

@@ -8,13 +8,18 @@ import { weatherScene } from './scenes/weatherScene.js'
 import { attractionsScene } from './scenes/attractionsScene.js'
 
 import { BotCommands } from './commands/BotCommands.js'
+import { eventsScene } from './scenes/eventsScene.js'
 
 export const setup = db => {
     // session middleware MUST be initialized
     // before any commands or actions that require sessions
     const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
     bot.use(session(db))
-    const stage = new Scenes.Stage([weatherScene, attractionsScene])
+    const stage = new Scenes.Stage([
+        weatherScene,
+        attractionsScene,
+        eventsScene
+    ])
     bot.use(stage.middleware())
 
     bot.telegram.setMyCommands(BotCommands)
@@ -34,15 +39,11 @@ export const setup = db => {
     bot.action('/attractions', async ctx => {
         await ctx.scene.enter('attractionsScene')
     })
-    bot.action('/events', async ctx => {})
+    bot.action('/events', async ctx => {
+        await ctx.scene.enter('eventsScene')
+    })
     bot.action('/food', async ctx => {})
-    // bot.on('callback_query', async ctx => {
-    //     console.log(ctx.callback_query.from)
-    //     console.log(ctx.callback_query.message)
-    //     console.log(ctx.callback_query.data)
-    //
-    //     await ctx.scene.enter('attractionsScene')
-    // })
+
     bot.on(message('text'), async ctx => {
         console.log(ctx.message)
         const text = ctx.message.text
