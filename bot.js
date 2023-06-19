@@ -1,4 +1,4 @@
-import { Scenes, session, Telegraf } from 'telegraf'
+import { Markup, Scenes, session, Telegraf } from 'telegraf'
 import stickersMap from './const/stickersMap.js'
 import { helpText } from './const/helpText.js'
 import { message } from 'telegraf/filters'
@@ -6,6 +6,7 @@ import { btnOptions } from './options.js'
 import { weatherRequest } from './requests/weatherRequest.js'
 import { pictureRequest } from './requests/pictureRequest.js'
 import { weatherScene } from './scenes/weatherScene.js'
+import { BotCommands } from './commands/BotCommands.js'
 
 export const setup = db => {
     // session middleware MUST be initialized
@@ -15,19 +16,7 @@ export const setup = db => {
     const stage = new Scenes.Stage([weatherScene])
     bot.use(stage.middleware())
 
-    bot.telegram.setMyCommands([
-        { command: '/start', description: 'Начальное приветствие' },
-        { command: '/help', description: 'Подскажет тебе о возможностях бота' },
-        { command: '/weather', description: 'Текущая погода в твоём городе!' },
-        {
-            command: '/cat',
-            description: 'Если захотелось посмотреть на котиков'
-        },
-        {
-            command: '/dog',
-            description: 'Если захотелось посмотреть на собачек'
-        }
-    ])
+    bot.telegram.setMyCommands(BotCommands)
 
     bot.start(async ctx => {
         await ctx.reply('Bonjour')
@@ -39,7 +28,7 @@ export const setup = db => {
         )
     })
     bot.help(ctx => ctx.reply(helpText))
-    bot.on(message('sticker'), ctx => ctx.reply('👍'))
+    bot.on(message('sticker'), ctx => ctx.reply('прикольная картинка :)'))
     bot.hears('хахаха', ctx => ctx.reply('аахахаххахахахах'))
 
     bot.on(message('text'), async ctx => {
@@ -64,7 +53,54 @@ export const setup = db => {
             }
             case '/dog': {
                 const pictureURL = await pictureRequest('dog')
-                ctx.replyWithPhoto(pictureURL)
+                await ctx.replyWithPhoto(pictureURL)
+                break
+            }
+            case '/weather_subscribe': {
+                break
+            }
+            case '/recommend': {
+                await ctx.reply(
+                    'Я могу предложить тебе достопримечательности в выбранном тобой городе, события - в стране и  места, где можно поесть, по твоей геолокации. Выбирай!',
+                    Markup.inlineKeyboard([
+                        [
+                            Markup.button.callback(
+                                'Достопримечательности🗺️',
+                                '/attractions'
+                            )
+                        ],
+                        [
+                            Markup.button.callback('События📆', '/events'),
+                            Markup.button.callback('Еда🍽️', '/food')
+                        ]
+                    ])
+                )
+                break
+            }
+            case '/tasks': {
+                await ctx.reply(
+                    'Что ты хочешь сделать?',
+                    Markup.inlineKeyboard([
+                        [
+                            Markup.button.callback(
+                                'Вывести все задачи📚',
+                                '/allTasks'
+                            )
+                        ],
+                        [
+                            Markup.button.callback(
+                                'Добавить задачу📝',
+                                '/addTask'
+                            )
+                        ],
+                        [
+                            Markup.button.callback(
+                                'Вывести задачи на сегодня📗',
+                                '/todayTasks'
+                            )
+                        ]
+                    ])
+                )
                 break
             }
             default: {
