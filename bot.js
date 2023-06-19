@@ -3,9 +3,10 @@ import stickersMap from './const/stickersMap.js'
 import { helpText } from './const/helpText.js'
 import { message } from 'telegraf/filters'
 import { btnOptions } from './options.js'
-import { weatherRequest } from './requests/weatherRequest.js'
 import { pictureRequest } from './requests/pictureRequest.js'
 import { weatherScene } from './scenes/weatherScene.js'
+import { attractionsScene } from './scenes/attractionsScene.js'
+
 import { BotCommands } from './commands/BotCommands.js'
 
 export const setup = db => {
@@ -13,7 +14,7 @@ export const setup = db => {
     // before any commands or actions that require sessions
     const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
     bot.use(session(db))
-    const stage = new Scenes.Stage([weatherScene])
+    const stage = new Scenes.Stage([weatherScene, attractionsScene])
     bot.use(stage.middleware())
 
     bot.telegram.setMyCommands(BotCommands)
@@ -30,7 +31,18 @@ export const setup = db => {
     bot.help(ctx => ctx.reply(helpText))
     bot.on(message('sticker'), ctx => ctx.reply('прикольная картинка :)'))
     bot.hears('хахаха', ctx => ctx.reply('аахахаххахахахах'))
-
+    bot.action('/attractions', async ctx => {
+        await ctx.scene.enter('attractionsScene')
+    })
+    bot.action('/events', async ctx => {})
+    bot.action('/food', async ctx => {})
+    // bot.on('callback_query', async ctx => {
+    //     console.log(ctx.callback_query.from)
+    //     console.log(ctx.callback_query.message)
+    //     console.log(ctx.callback_query.data)
+    //
+    //     await ctx.scene.enter('attractionsScene')
+    // })
     bot.on(message('text'), async ctx => {
         console.log(ctx.message)
         const text = ctx.message.text
