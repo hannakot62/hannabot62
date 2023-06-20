@@ -11,8 +11,9 @@ export const weatherRequest = async cityName => {
             result = getWeatherText(response.data)
         })
         .catch(err => {
-            console.log('bad city')
-            result = 'Я пока не знаю такого населённого пункта'
+            if (err.response.status === 400 || err.response.status === 404) {
+                result = 'Я пока не знаю такого населённого пункта'
+            } else result = 'Упс... Что-то пошло не так :('
         })
     return result
 }

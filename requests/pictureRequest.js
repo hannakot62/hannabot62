@@ -14,7 +14,6 @@ export const pictureRequest = async searchQuery => {
         )
         .then(function (response) {
             // обработка успешного запроса
-            console.log(response.data)
             const rand = Math.floor(Math.random() * 79)
             pictureURL =
                 response.data.photos[rand].src.large ??

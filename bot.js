@@ -10,6 +10,7 @@ import { attractionsScene } from './scenes/attractionsScene.js'
 import { BotCommands } from './commands/BotCommands.js'
 import { eventsScene } from './scenes/eventsScene.js'
 import { foodScene } from './scenes/foodScene.js'
+import { weatherSubscribeScene } from './scenes/weatherSubscribeScene.js'
 
 export const setup = db => {
     // session middleware MUST be initialized
@@ -20,14 +21,19 @@ export const setup = db => {
         weatherScene,
         attractionsScene,
         eventsScene,
-        foodScene
+        foodScene,
+        weatherSubscribeScene
     ])
     bot.use(stage.middleware())
 
     bot.telegram.setMyCommands(BotCommands)
 
     bot.start(async ctx => {
-        const username = ctx.message.chat.username
+        const username =
+            ctx.message.chat.username ||
+            ctx.message.chat.first_name ||
+            'дружище'
+
         const chatID = ctx.message.chat.id
 
         const usersCollection = await db.collection('users')
@@ -52,6 +58,7 @@ export const setup = db => {
     bot.help(ctx => ctx.reply(helpText))
     bot.on(message('sticker'), ctx => ctx.reply('прикольная картинка :)'))
     bot.hears('хахаха', ctx => ctx.reply('аахахаххахахахах'))
+
     bot.action('/attractions', async ctx => {
         await ctx.scene.enter('attractionsScene')
     })
@@ -61,7 +68,11 @@ export const setup = db => {
     bot.action('/food', async ctx => {
         await ctx.scene.enter('foodScene')
     })
-
+    bot.action(/^\/weather_unsubscribe_(.+)$/, async ctx => {
+        clearInterval(JSON.parse(ctx.match[1]))
+        clearTimeout(JSON.parse(ctx.match[1]))
+        await ctx.reply('Успешная отписка 👍')
+    })
     bot.on(message('text'), async ctx => {
         console.log(ctx.message)
         const text = ctx.message.text
@@ -73,7 +84,6 @@ export const setup = db => {
                 break
             }
             case '/weather': {
-                console.log(ctx)
                 await ctx.scene.enter('weatherScene')
                 break
             }
@@ -88,6 +98,7 @@ export const setup = db => {
                 break
             }
             case '/weather_subscribe': {
+                await ctx.scene.enter('weatherSubscribeScene')
                 break
             }
             case '/recommend': {
