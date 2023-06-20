@@ -27,9 +27,23 @@ export const setup = db => {
     bot.telegram.setMyCommands(BotCommands)
 
     bot.start(async ctx => {
-        await ctx.reply('Bonjour')
-        await ctx.replyWithSticker(stickersMap.get('hello'))
         const username = ctx.message.chat.username
+        const chatID = ctx.message.chat.id
+
+        const usersCollection = await db.collection('users')
+        const user = await usersCollection.findOne({ chatID })
+        console.log(user)
+        if (!user) {
+            await ctx.reply(`Добро пожаловать, ${username}!
+С возможностями бота ты можешь ознакомиться вызвав команду /help`)
+            await ctx.replyWithSticker(stickersMap.get('deal'))
+            await usersCollection.insertOne({ username, chatID })
+        } else {
+            await ctx.reply(`Я тебя узнал, ${username}! 😅
+Привет!`)
+            await ctx.replyWithSticker(stickersMap.get('hello'))
+        }
+
         await bot.telegram.sendMessage(
             process.env.CHAT_ID_FOR_LOGS,
             username + ': logged'
