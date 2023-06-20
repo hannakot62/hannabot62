@@ -2,30 +2,30 @@ import { Markup, Scenes, session, Telegraf } from 'telegraf'
 import stickersMap from './const/stickersMap.js'
 import { helpText } from './const/helpText.js'
 import { message } from 'telegraf/filters'
-import { btnOptions } from './options.js'
 import { pictureRequest } from './requests/pictureRequest.js'
 import { weatherScene } from './scenes/weatherScene.js'
 import { attractionsScene } from './scenes/attractionsScene.js'
-
 import { BotCommands } from './commands/BotCommands.js'
 import { eventsScene } from './scenes/eventsScene.js'
 import { foodScene } from './scenes/foodScene.js'
 import { weatherSubscribeScene } from './scenes/weatherSubscribeScene.js'
+import { addTaskScene } from './scenes/addTaskScene.js'
+import { getTasksText } from './helpers/getTasksText.js'
+import dayjs from 'dayjs'
 
 export const setup = db => {
-    // session middleware MUST be initialized
-    // before any commands or actions that require sessions
     const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
     bot.use(session(db))
+
     const stage = new Scenes.Stage([
         weatherScene,
         attractionsScene,
         eventsScene,
         foodScene,
-        weatherSubscribeScene
+        weatherSubscribeScene,
+        addTaskScene
     ])
     bot.use(stage.middleware())
-
     bot.telegram.setMyCommands(BotCommands)
 
     bot.start(async ctx => {
@@ -35,10 +35,8 @@ export const setup = db => {
             'дружище'
 
         const chatID = ctx.message.chat.id
-
         const usersCollection = await db.collection('users')
         const user = await usersCollection.findOne({ chatID })
-        console.log(user)
         if (!user) {
             await ctx.reply(`Добро пожаловать, ${username}!
 С возможностями бота ты можешь ознакомиться вызвав команду /help`)
@@ -68,9 +66,43 @@ export const setup = db => {
     bot.action('/food', async ctx => {
         await ctx.scene.enter('foodScene')
     })
+    bot.action('/allTasks', async ctx => {
+        const tasksCollection = await db.collection('tasks')
+        const id = ctx.update.callback_query.message.chat.id
+        const tasks = await tasksCollection.find({ chatID: id }).toArray()
+        const responseText = getTasksText(tasks)
+        await ctx.replyWithHTML(responseText)
+    })
+    bot.action('/addTask', async ctx => {
+        await ctx.scene.enter('addTaskScene')
+    })
+    bot.action('/todayTasks', async ctx => {
+        const tasksCollection = await db.collection('tasks')
+        const id = ctx.update.callback_query.message.chat.id
+        let tasks = await tasksCollection.find({ chatID: id }).toArray()
+        tasks = tasks.filter(
+            task => dayjs(dayjs()).format('DD.MM.YYYY') === task.date
+        )
+        const responseText = getTasksText(tasks)
+        await ctx.replyWithHTML(responseText)
+    })
+    bot.action(
+        /^\/addTaskToDB_([^,].*),([^,].*),([^,].*),([^,].*)$/,
+        async ctx => {
+            const chatID = ctx.update.callback_query.message.chat.id
+            const task = {
+                title: ctx.match[1],
+                description: ctx.match[2],
+                date: ctx.match[3],
+                time: ctx.match[4],
+                chatID
+            }
+            const tasksCollection = await db.collection('tasks')
+            await tasksCollection.insertOne(task)
+        }
+    )
     bot.action(/^\/weather_unsubscribe_(.+)$/, async ctx => {
         clearInterval(JSON.parse(ctx.match[1]))
-        clearTimeout(JSON.parse(ctx.match[1]))
         await ctx.reply('Успешная отписка 👍')
     })
     bot.on(message('text'), async ctx => {
@@ -78,11 +110,6 @@ export const setup = db => {
         const text = ctx.message.text
         const chatId = ctx.message.chat.id
         switch (text) {
-            case '/buttons': {
-                await bot.sendMessage(chatId, 'сейчас вылетит кнопка')
-                await bot.sendMessage(chatId, 'Кнопку заказывали?', btnOptions)
-                break
-            }
             case '/weather': {
                 await ctx.scene.enter('weatherScene')
                 break
@@ -105,18 +132,21 @@ export const setup = db => {
                 await ctx.reply(
                     'Могу предложить тебе список достопримечательностей, событий или' +
                         ' мест, где можно вкусно поесть, по городу, который ты укажешь. Выбирай!🤗',
-                    Markup.inlineKeyboard([
+                    Markup.inlineKeyboard(
                         [
-                            Markup.button.callback(
-                                'Достопримечательности🗺️',
-                                '/attractions'
-                            )
+                            [
+                                Markup.button.callback(
+                                    'Достопримечательности🗺️',
+                                    '/attractions'
+                                )
+                            ],
+                            [
+                                Markup.button.callback('События📆', '/events'),
+                                Markup.button.callback('Еда🍽️', '/food')
+                            ]
                         ],
-                        [
-                            Markup.button.callback('События📆', '/events'),
-                            Markup.button.callback('Еда🍽️', '/food')
-                        ]
-                    ])
+                        { one_time_keyboard: true }
+                    )
                 )
                 break
             }
