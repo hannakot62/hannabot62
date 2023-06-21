@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 export async function eventsRequest(countryCode) {
-    let response = await axios.get(
-        `https://holidays-by-api-ninjas.p.rapidapi.com/v1/holidays`,
-        {
+    let events
+    await axios
+        .get(`https://holidays-by-api-ninjas.p.rapidapi.com/v1/holidays`, {
             params: {
                 country: countryCode,
                 year: new Date().getFullYear()
@@ -12,7 +12,8 @@ export async function eventsRequest(countryCode) {
                 'X-RapidAPI-Key': process.env.RAPID_API_KEY,
                 'X-RapidAPI-Host': process.env.RAPID_API_HOST_FOR_EVENTS
             }
-        }
-    )
-    return response.data
+        })
+        .then(response => (events = response.data))
+        .catch(err => (events = 'Упс... Что-то пошло не так :('))
+    return events
 }

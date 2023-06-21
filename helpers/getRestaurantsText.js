@@ -1,5 +1,6 @@
 export function getRestaurantsText(restaurants) {
     let text = ''
+    if (!Array.isArray(restaurants)) return restaurants
     restaurants = restaurants.filter(rest => +rest.rating > 4)
 
     restaurants.forEach(rest => {

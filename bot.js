@@ -86,21 +86,19 @@ export const setup = db => {
         const responseText = getTasksText(tasks)
         await ctx.replyWithHTML(responseText)
     })
-    bot.action(
-        /^\/addTaskToDB_([^,].*),([^,].*),([^,].*),([^,].*)$/,
-        async ctx => {
-            const chatID = ctx.update.callback_query.message.chat.id
-            const task = {
-                title: ctx.match[1],
-                description: ctx.match[2],
-                date: ctx.match[3],
-                time: ctx.match[4],
-                chatID
-            }
-            const tasksCollection = await db.collection('tasks')
-            await tasksCollection.insertOne(task)
+    bot.action(/^\/addTaskToDB_([^,]+),([^,]+),([^,]+),([^,]+)$/, async ctx => {
+        const chatID = ctx.update.callback_query.message.chat.id
+        const task = {
+            title: ctx.match[1],
+            description: ctx.match[2],
+            date: ctx.match[3],
+            time: ctx.match[4],
+            chatID
         }
-    )
+        const tasksCollection = await db.collection('tasks')
+        await tasksCollection.insertOne(task)
+        await ctx.reply('Добавил!')
+    })
     bot.action(/^\/weather_unsubscribe_(.+)$/, async ctx => {
         clearInterval(JSON.parse(ctx.match[1]))
         await ctx.reply('Успешная отписка 👍')

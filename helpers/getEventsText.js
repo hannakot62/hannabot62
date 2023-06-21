@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 
 export function getEventsText(events) {
     let text = ''
+    if (!Array.isArray(events)) return events
     events = events.filter(event => dayjs(event.date) > dayjs())
     events.sort((a, b) => dayjs(a.date) - dayjs(b.date))
     events.forEach(event => {
