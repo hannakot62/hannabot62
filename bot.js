@@ -12,6 +12,7 @@ import { weatherSubscribeScene } from './scenes/weatherSubscribeScene.js'
 import { addTaskScene } from './scenes/addTaskScene.js'
 import { getTasksText } from './helpers/getTasksText.js'
 import dayjs from 'dayjs'
+import { createTaskNotificationScene } from './scenes/createTaskNotificationScene.js'
 
 export const setup = db => {
     const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
@@ -23,7 +24,8 @@ export const setup = db => {
         eventsScene,
         foodScene,
         weatherSubscribeScene,
-        addTaskScene
+        addTaskScene,
+        createTaskNotificationScene
     ])
     bot.use(stage.middleware())
     bot.telegram.setMyCommands(BotCommands)
@@ -75,7 +77,7 @@ export const setup = db => {
         await ctx.replyWithHTML(responseText)
     })
     bot.action('/addTask', async ctx => {
-        await ctx.scene.enter('addTaskScene')
+        await ctx.scene.enter('addTaskScene', { db })
     })
     bot.action('/todayTasks', async ctx => {
         const tasksCollection = await db.collection('tasks')
@@ -87,20 +89,50 @@ export const setup = db => {
         const responseText = getTasksText(tasks)
         await ctx.replyWithHTML(responseText)
     })
-    bot.action(/^\/addTaskToDB_([^,]+),([^,]+),([^,]+),([^,]+)$/, async ctx => {
-        const chatID = ctx.update.callback_query.message.chat.id
-        const task = {
-            title: ctx.match[1],
-            description: ctx.match[2],
-            date: ctx.match[3],
-            time: ctx.match[4],
-            chatID
-        }
-        const tasksCollection = await db.collection('tasks')
-        await tasksCollection.insertOne(task)
-        await ctx.reply('Добавил!')
-    })
+    // bot.action(/^\/addTaskToDB_(.+)$/, async ctx => {
+    //     const chatID = ctx.update.callback_query.message.chat.id
+    //     console.log(ctx.match)
+    //     const task = {
+    //         title: ctx.match[1],
+    //         description: ctx.match[2],
+    //         date: ctx.match[3],
+    //         time: ctx.match[4],
+    //         chatID
+    //     }
+    //     const tasksCollection = await db.collection('tasks')
+    //     await tasksCollection.insertOne(task)
+    //     await ctx.reply('Добавил!')
+    //
+    //     await ctx.reply(
+    //         'Может быть необходимо напоминаниние?',
+    //         Markup.inlineKeyboard([
+    //             Markup.button.callback(
+    //                 'Да',
+    //                 `/create_task_notification_${task.title},${task.description},${task.date},${task.time}`
+    //             ),
+    //             Markup.button.callback(
+    //                 'Нет',
+    //                 '/do_not_create_task_notification'
+    //             )
+    //         ])
+    //     )
+    // })
+    bot.action(/^\/create_task_notification_(.+)$/, async ctx => {
+        // const task = {
+        //     title: ctx.match[1],
+        //     description: ctx.match[2],
+        //     date: ctx.match[3],
+        //     time: ctx.match[4]
+        // }
+        const id = ctx.match[1]
+        await ctx.scene.enter('createTaskNotificationScene', { id, db })
 
+        //scene чтобы узнать когда напомнить
+        //set timeout с ответом
+    })
+    bot.action('/do_not_create_task_notification', async ctx => {
+        await ctx.reply('Ну ладно :)')
+    })
     bot.action(/^\/weather_unsubscribe_(.+)$/, async ctx => {
         clearInterval(JSON.parse(ctx.match[1]))
         await ctx.reply('Успешная отписка 👍')

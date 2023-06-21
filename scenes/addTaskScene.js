@@ -45,31 +45,31 @@ time.on('text', async ctx => {
         return ctx.scene.leave()
     }
     ctx.wizard.state.data.time = ctx.message.text
+
     const title = ctx.wizard.state.data.title
     const description = ctx.wizard.state.data.description
     const date = `${ctx.wizard.state.data.date.day}\.${ctx.wizard.state.data.date.month}\.${ctx.wizard.state.data.date.year}`
     const time = `${timeValid.hours}\:${timeValid.minutes}`
-    //????????????????????????????????????????????????
-    console.log(`/addTaskToDB_${title},${description},${date},${time}`)
-    await ctx.reply(
-        'Нажми, чтобы добавить',
-        Markup.inlineKeyboard([
-            [
-                Markup.button.callback(
-                    'Готово!',
-                    `/addTaskToDB_${title},${description},${date},${time}`
-                )
-            ]
-        ])
-    )
+    const task = { title, description, date, time }
+
+    const db = ctx.scene.state.db
+    const tasksCollection = await db.collection('tasks')
+    const lastInserted = await tasksCollection.insertOne(task)
+    const insertedId = lastInserted.insertedId
+
+    await ctx.reply('Добавил!')
 
     await ctx.reply(
-        'Добавить напоминаниние?',
+        'Может быть необходимо напоминаниние?',
         Markup.inlineKeyboard([
-            Markup.button.callback('Да', '/create_task_notification'),
+            Markup.button.callback(
+                'Да',
+                `/create_task_notification_${insertedId}`
+            ),
             Markup.button.callback('Нет', '/do_not_create_task_notification')
         ])
     )
+
     return ctx.scene.leave() //напоминания
 })
 

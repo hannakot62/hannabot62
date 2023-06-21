@@ -49,7 +49,7 @@ timeWeatherSubscribe.on('text', async ctx => {
     }
     interval = setTimeout(async () => {
         const city = ctx.wizard.state.data.city
-        interval = setInterval(() => operation(ctx, city), 10000)
+        interval = setInterval(() => operation(ctx, city), 86400000)
         await operation(ctx, city)
     }, getTimeToNotification(+time.hours, +time.minutes))
 
