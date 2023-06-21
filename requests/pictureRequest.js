@@ -19,5 +19,8 @@ export const pictureRequest = async searchQuery => {
                 response.data.photos[rand].src.large ??
                 response.data.photos[rand].src.medium
         })
+        .catch(err => {
+            return 'Упс, что-то пошло не так :('
+        })
     return pictureURL
 }
