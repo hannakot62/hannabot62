@@ -1,10 +1,11 @@
 import axios from 'axios'
+import { ATTRACTIONS_ACCESS_KEY } from '../const/environmentVars/environmentVars.js'
 
 export async function attractionsRequest(lat, lon) {
     let attractions
     await axios
         .get(
-            `http://api.opentripmap.com/0.1/ru/places/radius?apikey=${process.env.ATTRACTIONS_ACCESS_KEY}`,
+            `http://api.opentripmap.com/0.1/ru/places/radius?apikey=${ATTRACTIONS_ACCESS_KEY}`,
             { params: { radius: 1000, limit: 15, lon, lat } }
         )
         .then(response => {

@@ -1,4 +1,8 @@
 import axios from 'axios'
+import {
+    RAPID_API_KEY,
+    RAPID_API_KEY_HOST_FOOD
+} from '../const/environmentVars/environmentVars.js'
 
 export async function restaurantsRequest(lat, lon) {
     let restaurants
@@ -15,8 +19,8 @@ export async function restaurantsRequest(lat, lon) {
             },
 
             headers: {
-                'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-                'X-RapidAPI-Host': process.env.RAPID_API_KEY_HOST_FOOD
+                'X-RapidAPI-Key': RAPID_API_KEY,
+                'X-RapidAPI-Host': RAPID_API_KEY_HOST_FOOD
             }
         })
         .then(response => (restaurants = response.data.data))

@@ -12,9 +12,10 @@ import { botCommands, start, textMessage } from './commands/index.js'
 import { helpText } from './const/index.js'
 import { message } from 'telegraf/filters'
 import { allTasks, todayTasks } from './commands/actions/index.js'
+import { TELEGRAM_BOT_ACCESS_TOKEN } from './const/environmentVars/environmentVars.js'
 
 export const setup = db => {
-    const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
+    const bot = new Telegraf(TELEGRAM_BOT_ACCESS_TOKEN)
     bot.use(session(db))
 
     const stage = new Scenes.Stage([

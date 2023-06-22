@@ -1,4 +1,5 @@
 import { enterRecognizedText, enterText, stickersMap } from '../const/index.js'
+import { CHAT_ID_FOR_LOGS } from '../const/environmentVars/environmentVars.js'
 
 export async function start(ctx, db, bot) {
     const username =
@@ -17,8 +18,5 @@ export async function start(ctx, db, bot) {
         await ctx.replyWithSticker(stickersMap.get('hello'))
     }
 
-    await bot.telegram.sendMessage(
-        process.env.CHAT_ID_FOR_LOGS,
-        username + ': logged'
-    )
+    await bot.telegram.sendMessage(CHAT_ID_FOR_LOGS, username + ': logged')
 }

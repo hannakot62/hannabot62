@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { PICTURES_ACCESS_TOKEN } from '../const/environmentVars/environmentVars.js'
 
 export const pictureRequest = async searchQuery => {
     let pictureURL = ''
@@ -8,7 +9,7 @@ export const pictureRequest = async searchQuery => {
             `https://api.pexels.com/v1/search?query=${searchQuery}&per_page=80&page=${randPage}`,
             {
                 headers: {
-                    Authorization: process.env.PICTURES_ACCESS_TOKEN
+                    Authorization: PICTURES_ACCESS_TOKEN
                 }
             }
         )

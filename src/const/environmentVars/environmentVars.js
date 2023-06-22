@@ -1,0 +1,13 @@
+export const TELEGRAM_BOT_ACCESS_TOKEN = process.env.TELEGRAM_BOT_ACCESS_TOKEN
+export const PICTURES_ACCESS_TOKEN = process.env.PICTURES_ACCESS_TOKEN
+
+export const WEATHER_ACCESS_TOKEN = process.env.WEATHER_ACCESS_TOKEN
+export const ATTRACTIONS_ACCESS_KEY = process.env.ATTRACTIONS_ACCESS_KEY
+
+export const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING
+export const RAPID_API_KEY = process.env.RAPID_API_KEY
+
+export const RAPID_API_HOST_FOR_EVENTS = process.env.RAPID_API_HOST_FOR_EVENTS
+export const RAPID_API_KEY_HOST_FOOD = process.env.RAPID_API_KEY_HOST_FOOD
+
+export const CHAT_ID_FOR_LOGS = process.env.CHAT_ID_FOR_LOGS
