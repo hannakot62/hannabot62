@@ -36,8 +36,9 @@ date.on('text', async ctx => {
             month,
             year
         }
+    } else {
+        ctx.wizard.state.data.date = dateValid
     }
-    ctx.wizard.state.data.date = dateValid
     await ctx.reply(
         'Введи время для напоминания о задаче в формате HH:mm (например 09:47)'
     )
