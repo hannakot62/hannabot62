@@ -10,6 +10,7 @@ export function getTimeToNotification(hours, minutes) {
         notifyMoment = new Date(notifyMoment.getTime() + DAY_IN_MS)
     ms = notifyMoment.getTime() - now.getTime()
     console.log(new Date())
+    console.log(new Date().getTimezoneOffset() / 60)
     console.log(notifyMoment)
     return ms
 }
