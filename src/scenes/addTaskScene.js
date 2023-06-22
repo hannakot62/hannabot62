@@ -56,15 +56,18 @@ time.on('text', async ctx => {
     }
     ctx.wizard.state.data.time = ctx.message.text
 
+    const chatID = ctx.message.chat.id
     const title = ctx.wizard.state.data.title
     const description = ctx.wizard.state.data.description
     const date = `${ctx.wizard.state.data.date.day}\.${ctx.wizard.state.data.date.month}\.${ctx.wizard.state.data.date.year}`
     const time = `${timeValid.hours}\:${timeValid.minutes}`
-    const task = { title, description, date, time }
+    const task = { title, description, date, time, chatID }
 
     const db = ctx.scene.state.db
     const tasksCollection = await db.collection('tasks')
-    const lastInserted = await tasksCollection.insertOne(task)
+    const lastInserted = await tasksCollection.insertOne({
+        ...task
+    })
     const insertedId = lastInserted.insertedId
 
     await ctx.reply('Добавил!')
