@@ -1,7 +1,7 @@
 // webpack.config.js
 import path from 'path'
 
-module.exports = {
+export default {
     target: 'node',
     entry: './index.js',
     output: {
