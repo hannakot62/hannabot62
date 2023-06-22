@@ -6,10 +6,10 @@ export function getRestaurantsText(restaurants) {
     const result = checkIfArrayBadResponse(restaurants)
     if (result) return result
 
-    restaurants = restaurants.filter(rest => +rest.rating > 4)
-
-    restaurants.forEach(rest => {
-        let item = `
+    restaurants
+        .filter(rest => +rest.rating > 4)
+        .forEach(rest => {
+            let item = `
 <b>🍽️ ${rest.name} 🍽️</b>
 Рейтинг: ${rest.rating} ⭐
 ${rest.price_level ? `Цены: ${rest.price_level} 💰` : ``}
@@ -17,7 +17,7 @@ ${rest.price_level ? `Цены: ${rest.price_level} 💰` : ``}
 ✏️Страница на Trip Advisor: ${rest.web_url}
 
 `
-        text += item
-    })
+            text += item
+        })
     return text
 }

@@ -11,6 +11,7 @@ export function getWeatherText(weatherObj) {
         .unix(weatherObj.sys.sunset)
         .hour(dayjs.unix(weatherObj.sys.sunset).hour() + 3)
         .format('HH:mm')
+
     return `
 📍${weatherObj.name}: ${weatherObj.weather[0].description} ${icon}
 Температура на данный момент: ${weatherObj.main.temp} °C

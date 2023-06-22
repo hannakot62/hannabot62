@@ -8,16 +8,17 @@ export function getEventsText(events) {
     const result = checkIfArrayBadResponse(events)
     if (result) return result
 
-    events = events.filter(event => dayjs(event.date) > dayjs())
-    events.sort((a, b) => dayjs(a.date) - dayjs(b.date))
-    events.forEach(event => {
-        event.date = dayjs(event.date).format('DD/MM/YYYY')
-        let item = `
+    events
+        .filter(event => dayjs(event.date) > dayjs())
+        .sort((a, b) => dayjs(a.date) - dayjs(b.date))
+        .forEach(event => {
+            event.date = dayjs(event.date).format('DD/MM/YYYY')
+            let item = `
 📌<b><em>Название: ${event.name}</em></b>
 🗓️Когда: ${weekDaysTranslationMap.get(event.day)} ${event.date}
 
 `
-        text += item
-    })
+            text += item
+        })
     return text
 }
