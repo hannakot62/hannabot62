@@ -4,13 +4,14 @@ import {
     validateCityRecommendHelper
 } from '../helpers/index.js'
 import { restaurantsRequest } from '../requests/index.js'
+import { enterCityName } from '../const/vars/index.js'
 
 //================================================================================
 
 export const foodWizard = new Composer()
 foodWizard.on('callback_query', async ctx => {
     ctx.wizard.state.data = {}
-    await ctx.reply('Введи название населённого пункта')
+    await ctx.reply(enterCityName)
     return ctx.wizard.next()
 })
 

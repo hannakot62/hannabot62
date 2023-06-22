@@ -3,6 +3,7 @@ import {
     RAPID_API_KEY,
     RAPID_API_KEY_HOST_FOOD
 } from '../const/environmentVars/environmentVars.js'
+import { oops } from '../const/vars/index.js'
 
 export async function restaurantsRequest(lat, lon) {
     let restaurants
@@ -24,6 +25,6 @@ export async function restaurantsRequest(lat, lon) {
             }
         })
         .then(response => (restaurants = response.data.data))
-        .catch(err => (restaurants = 'Упс... Что-то пошло не так :('))
+        .catch(err => (restaurants = oops))
     return restaurants
 }

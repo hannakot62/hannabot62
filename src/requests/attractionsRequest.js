@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ATTRACTIONS_ACCESS_KEY } from '../const/environmentVars/environmentVars.js'
+import { foundNothingHere, oops } from '../const/vars/index.js'
 
 export async function attractionsRequest(lat, lon) {
     let attractions
@@ -13,9 +14,9 @@ export async function attractionsRequest(lat, lon) {
         })
         .catch(err => {
             if (err.response.status === 400 || err.response.status === 404) {
-                attractions = 'Не могу ничего найти об этом населённом пункте'
+                attractions = foundNothingHere
             } else {
-                attractions = 'Упс... Что-то пошло не так :('
+                attractions = oops
             }
         })
     return attractions

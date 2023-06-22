@@ -1,8 +1,9 @@
 import { Markup } from 'telegraf'
+import { tasksText } from '../../const/vars/index.js'
 
 export async function tasks(ctx) {
     await ctx.reply(
-        'Что ты хочешь сделать?',
+        tasksText,
         Markup.inlineKeyboard([
             [Markup.button.callback('Вывести все задачи📚', '/allTasks')],
             [Markup.button.callback('Добавить задачу📝', '/addTask')],

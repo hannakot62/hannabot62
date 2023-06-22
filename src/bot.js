@@ -13,6 +13,7 @@ import { helpText } from './const/index.js'
 import { message } from 'telegraf/filters'
 import { allTasks, todayTasks } from './commands/actions/index.js'
 import { TELEGRAM_BOT_ACCESS_TOKEN } from './const/environmentVars/environmentVars.js'
+import { lol, nicePic, unsubscribedSuccessfully } from './const/vars/index.js'
 
 export const setup = db => {
     const bot = new Telegraf(TELEGRAM_BOT_ACCESS_TOKEN)
@@ -37,8 +38,8 @@ export const setup = db => {
     })
 
     bot.help(ctx => ctx.reply(helpText))
-    bot.on(message('sticker'), ctx => ctx.reply('прикольная картинка :)'))
-    bot.hears('хахаха', ctx => ctx.reply('аахахаххахахахах'))
+    bot.on(message('sticker'), ctx => ctx.reply(nicePic))
+    bot.hears('хахаха', ctx => ctx.reply(lol))
 
     //=========================================================================================
 
@@ -83,7 +84,7 @@ export const setup = db => {
     // в качестве набора любых символов в определённом месте: скобки
     bot.action(/^\/weather_unsubscribe_(.+)$/, async ctx => {
         clearInterval(JSON.parse(ctx.match[1]))
-        await ctx.reply('Успешная отписка 👍')
+        await ctx.reply(unsubscribedSuccessfully)
     })
 
     //=========================================================================================

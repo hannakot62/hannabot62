@@ -1,11 +1,8 @@
 import { weatherRequest } from '../requests/index.js'
+import { oops, unknownCity } from '../const/vars/index.js'
 
 export async function validateCityWeather(city) {
     let res = await weatherRequest(city)
-    if (
-        res === 'Я пока не знаю такого населённого пункта' ||
-        res === 'Упс... Что-то пошло не так :('
-    )
-        return res
+    if (res === unknownCity || res === oops) return res
     return 'ok'
 }

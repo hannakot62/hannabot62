@@ -1,13 +1,14 @@
 import { Composer, Scenes } from 'telegraf'
 import { getEventsText, validateCityRecommendHelper } from '../helpers/index.js'
 import { eventsRequest } from '../requests/index.js'
+import { enterCityName } from '../const/vars/index.js'
 
 //================================================================================
 
 export const eventsWizard = new Composer()
 eventsWizard.on('callback_query', async ctx => {
     ctx.wizard.state.data = {}
-    await ctx.reply('Введи название населённого пункта')
+    await ctx.reply(enterCityName)
     return ctx.wizard.next()
 })
 

@@ -1,12 +1,13 @@
 import { Composer, Scenes } from 'telegraf'
 import { weatherRequest } from '../requests/index.js'
+import { enterCityName } from '../const/vars/index.js'
 
 //===================================================================================
 
 export const weatherWizard = new Composer()
 weatherWizard.on('text', async ctx => {
     ctx.wizard.state.data = {}
-    ctx.reply('Введи название населённого пункта')
+    ctx.reply(enterCityName)
     return ctx.wizard.next()
 })
 

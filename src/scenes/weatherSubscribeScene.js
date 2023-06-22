@@ -9,13 +9,18 @@ import {
     weatherNotificationAddedText,
     weatherNotificationNoTime
 } from '../const/index.js'
+import {
+    enterCityName,
+    enterWeatherNotificationTime,
+    tryOtherCommands
+} from '../const/vars/index.js'
 
 //===================================================================================
 
 export const weatherSubscribeWizard = new Composer()
 weatherSubscribeWizard.on('text', async ctx => {
     ctx.wizard.state.data = {}
-    await ctx.reply('Введи название населённого пункта')
+    await ctx.reply(enterCityName)
     return ctx.wizard.next()
 })
 
@@ -26,13 +31,11 @@ cityWeatherSubscribe.on('text', async ctx => {
     const response = await validateCityWeather(ctx.message.text)
     if (response !== 'ok') {
         await ctx.reply(response)
-        await ctx.reply('Можешь воспользоваться другими командами :)')
+        await ctx.reply(tryOtherCommands)
         return ctx.scene.leave()
     }
     ctx.wizard.state.data.city = ctx.message.text
-    await ctx.reply(
-        'Введи время для уведомления в формате HH:mm (например 15:48)'
-    )
+    await ctx.reply(enterWeatherNotificationTime)
     return ctx.wizard.next()
 })
 

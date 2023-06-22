@@ -1,6 +1,8 @@
+import { noTasks } from '../const/vars/index.js'
+
 export function getTasksText(tasks) {
     let text = ''
-    if (tasks.length === 0) return 'Задач нет :)'
+    if (tasks.length === 0) return noTasks
 
     tasks.forEach(task => {
         let item = `<b>🖇️ ${task.title}</b>

@@ -4,13 +4,20 @@ import {
     validateDate,
     validateTime
 } from '../helpers/index.js'
+import {
+    enterTaskDate,
+    enterTaskDescription,
+    enterTaskName,
+    enterTaskTime,
+    tryAddTaskAgain
+} from '../const/vars/index.js'
 
 //===================================================================================
 
 export const addTaskWizard = new Composer()
 addTaskWizard.on('callback_query', async ctx => {
     ctx.wizard.state.data = {}
-    await ctx.reply('Введи название задачи')
+    await ctx.reply(enterTaskName)
     return ctx.wizard.next()
 })
 
@@ -19,7 +26,7 @@ addTaskWizard.on('callback_query', async ctx => {
 export const title = new Composer()
 title.on('text', async ctx => {
     ctx.wizard.state.data.title = ctx.message.text
-    await ctx.reply('Введи описание задачи')
+    await ctx.reply(enterTaskDescription)
     return ctx.wizard.next()
 })
 
@@ -28,9 +35,7 @@ title.on('text', async ctx => {
 export const description = new Composer()
 description.on('text', async ctx => {
     ctx.wizard.state.data.description = ctx.message.text
-    await ctx.reply(
-        'Введи дату задачи в формате DD.MM.YYYY (например 26.01.2023)'
-    )
+    await ctx.reply(enterTaskDate)
     return ctx.wizard.next()
 })
 
@@ -40,11 +45,12 @@ export const date = new Composer()
 date.on('text', async ctx => {
     const dateValid = validateDate(ctx.message.text)
     if (!dateValid) {
-        await ctx.reply('Попробуй добавить эту задачу заново...')
+        //TODO change reject logic
+        await ctx.reply(tryAddTaskAgain)
         return ctx.scene.leave()
     }
     ctx.wizard.state.data.date = dateValid
-    await ctx.reply('Введи время задачи в формате HH:mm (например 09:47)')
+    await ctx.reply(enterTaskTime)
     return ctx.wizard.next()
 })
 //===================================================================================
@@ -53,7 +59,7 @@ export const time = new Composer()
 time.on('text', async ctx => {
     const timeValid = validateTime(ctx.message.text)
     if (!timeValid) {
-        await ctx.reply('Попробуй добавить эту задачу заново...')
+        await ctx.reply(tryAddTaskAgain)
         return ctx.scene.leave()
     }
     ctx.wizard.state.data.time = ctx.message.text

@@ -1,4 +1,5 @@
 import { cityRequest } from '../requests/index.js'
+import { foundNothingHere, status400, status404 } from '../const/vars/index.js'
 
 export async function validateCityRecommendHelper(ctx) {
     const location = (ctx.wizard.state.data.city = ctx.message.text)
@@ -8,8 +9,8 @@ export async function validateCityRecommendHelper(ctx) {
         await ctx.reply(cityObj)
         return ctx.scene.leave()
     }
-    if (cityObj?.status === 'NOT_FOUND' || cityObj?.status === 'BAD_REQUEST') {
-        await ctx.reply('Не могу ничего найти об этом населённом пункте')
+    if (cityObj?.status === status404 || cityObj?.status === status400) {
+        await ctx.reply(foundNothingHere)
         return ctx.scene.leave()
     }
     return cityObj

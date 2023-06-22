@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getWeatherText } from '../helpers/index.js'
 import { WEATHER_ACCESS_TOKEN } from '../const/environmentVars/environmentVars.js'
+import { oops, unknownCity } from '../const/vars/index.js'
 
 export const weatherRequest = async cityName => {
     let result = ''
@@ -13,8 +14,8 @@ export const weatherRequest = async cityName => {
         })
         .catch(err => {
             if (err.response.status === 400 || err.response.status === 404) {
-                result = 'Я пока не знаю такого населённого пункта'
-            } else result = 'Упс... Что-то пошло не так :('
+                result = unknownCity
+            } else result = oops
         })
     return result
 }

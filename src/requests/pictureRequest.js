@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { PICTURES_ACCESS_TOKEN } from '../const/environmentVars/environmentVars.js'
+import { oops } from '../const/vars/index.js'
 
 export const pictureRequest = async searchQuery => {
     let pictureURL = ''
@@ -21,7 +22,7 @@ export const pictureRequest = async searchQuery => {
                 response.data.photos[rand].src.medium
         })
         .catch(err => {
-            return 'Упс, что-то пошло не так :('
+            return oops
         })
     return pictureURL
 }

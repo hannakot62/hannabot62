@@ -1,8 +1,9 @@
 import { Markup } from 'telegraf'
+import { askAboutTaskNotificationReply } from '../const/vars/index.js'
 
 export async function askAboutTaskNotification(ctx, insertedId) {
     await ctx.reply(
-        'Может быть необходимо напоминание?',
+        askAboutTaskNotificationReply,
         Markup.inlineKeyboard([
             Markup.button.callback(
                 'Да',

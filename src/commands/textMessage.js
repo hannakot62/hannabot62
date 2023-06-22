@@ -1,5 +1,6 @@
 import { pictureRequest } from '../requests/index.js'
 import { recommend, tasks } from './text/index.js'
+import { defaultReply } from '../const/vars/index.js'
 
 export async function textMessage(ctx) {
     const text = ctx.message.text
@@ -31,9 +32,7 @@ export async function textMessage(ctx) {
             break
         }
         default: {
-            await ctx.reply(
-                'Мы говорим на разных языках... Попробуй воспользоваться командой /help'
-            )
+            await ctx.reply(defaultReply)
             break
         }
     }

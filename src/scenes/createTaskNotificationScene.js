@@ -6,6 +6,13 @@ import {
     validateDate,
     validateTime
 } from '../helpers/index.js'
+import {
+    cantGetTaskNotificationDate,
+    cantGetTaskNotificationTime,
+    enterTaskNotificationDate,
+    enterTaskNotificationTime,
+    ready
+} from '../const/vars/index.js'
 
 //===================================================================================
 
@@ -17,9 +24,7 @@ createTaskNotificationWizard.on('callback_query', async ctx => {
     ctx.wizard.state.data.lastInserted = await tasksCollection.findOne({
         _id: new ObjectId(id)
     })
-    await ctx.reply(
-        'Введи дату для напоминания о задаче в формате DD.MM.YYYY (например 26.01.2023)'
-    )
+    await ctx.reply(enterTaskNotificationDate)
     return ctx.wizard.next()
 })
 
@@ -29,7 +34,7 @@ export const date = new Composer()
 date.on('text', async ctx => {
     const dateValid = validateDate(ctx.message.text)
     if (!dateValid) {
-        await ctx.reply('Я не понял... Поставлю на день задачи!')
+        await ctx.reply(cantGetTaskNotificationDate)
         const [day, month, year] =
             ctx.wizard.state.data.lastInserted.date.split('.')
         ctx.wizard.state.data.date = {
@@ -40,9 +45,7 @@ date.on('text', async ctx => {
     } else {
         ctx.wizard.state.data.date = dateValid
     }
-    await ctx.reply(
-        'Введи время для напоминания о задаче в формате HH:mm (например 09:47)'
-    )
+    await ctx.reply(enterTaskNotificationTime)
     return ctx.wizard.next()
 })
 
@@ -52,7 +55,7 @@ export const time = new Composer()
 time.on('text', async ctx => {
     let timeValid = validateTime(ctx.message.text)
     if (!timeValid) {
-        await ctx.reply('Я не понял... Поставлю на 08:00...')
+        await ctx.reply(cantGetTaskNotificationTime)
         timeValid = { hours: '08', minutes: '00' }
     }
 
@@ -71,7 +74,7 @@ time.on('text', async ctx => {
         )
     })
 
-    await ctx.reply('Готово!')
+    await ctx.reply(ready)
     return ctx.scene.leave()
 })
 

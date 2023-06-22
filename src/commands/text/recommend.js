@@ -1,9 +1,9 @@
 import { Markup } from 'telegraf'
+import { recommendText } from '../../const/vars/index.js'
 
 export async function recommend(ctx) {
     await ctx.reply(
-        'Могу предложить тебе список достопримечательностей, событий или' +
-            ' мест, где можно вкусно поесть, по городу, который ты укажешь. Выбирай!🤗',
+        recommendText,
         Markup.inlineKeyboard([
             [Markup.button.callback('Достопримечательности🗺️', '/attractions')],
             [
