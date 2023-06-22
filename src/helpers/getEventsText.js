@@ -1,5 +1,5 @@
-import { weekDaysTranslationMap } from '../const/weekDaysTranslationMap.js'
 import dayjs from 'dayjs'
+import { weekDaysTranslationMap } from '../const/index.js'
 
 export function getEventsText(events) {
     let text = ''

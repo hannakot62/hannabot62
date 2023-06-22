@@ -1,4 +1,4 @@
-const stickersMap = new Map()
+export const stickersMap = new Map()
 
 stickersMap
     .set(
@@ -37,5 +37,3 @@ stickersMap
         'hot',
         'https://tlgrm.eu/_/stickers/697/ba1/697ba160-9c77-3b1a-9d97-86a9ce75ff4d/256/91.webp'
     )
-
-export default stickersMap

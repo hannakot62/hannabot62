@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getWeatherText } from '../helpers/getWeatherText.js'
+import { getWeatherText } from '../helpers/index.js'
 
 export const weatherRequest = async cityName => {
     let result = ''

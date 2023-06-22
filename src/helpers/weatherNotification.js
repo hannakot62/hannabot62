@@ -1,4 +1,4 @@
-import { weatherRequest } from '../requests/weatherRequest.js'
+import { weatherRequest } from '../requests/index.js'
 import { Markup } from 'telegraf'
 
 export async function weatherNotification(ctx, city, interval) {

@@ -1,4 +1,4 @@
-export const BotCommands = [
+export const botCommands = [
     { command: '/start', description: 'Начальное приветствие' },
     { command: '/help', description: 'Подскажет тебе о возможностях бота' },
     { command: '/weather', description: 'Текущая погода в твоём городе!' },

@@ -1,8 +1,9 @@
 import { Composer, Scenes } from 'telegraf'
-import { cityRequest } from '../requests/cityRequest.js'
-import { restaurantsRequest } from '../requests/restaurantsRequest.js'
-import { getRestaurantsText } from '../helpers/getRestaurantsText.js'
-import { validateCityRecommendHelper } from '../helpers/validateCityRecommendHelper.js'
+import {
+    getRestaurantsText,
+    validateCityRecommendHelper
+} from '../helpers/index.js'
+import { restaurantsRequest } from '../requests/index.js'
 
 //================================================================================
 

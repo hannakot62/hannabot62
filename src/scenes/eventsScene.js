@@ -1,8 +1,6 @@
 import { Composer, Scenes } from 'telegraf'
-import { cityRequest } from '../requests/cityRequest.js'
-import { eventsRequest } from '../requests/eventsRequest.js'
-import { getEventsText } from '../helpers/getEventsText.js'
-import { validateCityRecommendHelper } from '../helpers/validateCityRecommendHelper.js'
+import { getEventsText, validateCityRecommendHelper } from '../helpers/index.js'
+import { eventsRequest } from '../requests/index.js'
 
 //================================================================================
 

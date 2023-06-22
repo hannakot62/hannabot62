@@ -1,12 +1,14 @@
-import { Composer, Markup, Scenes } from 'telegraf'
-import { validateTime } from '../helpers/validateTime.js'
-import { validateCityWeather } from '../helpers/validateCityWeather.js'
-import { getTimeToNotification } from '../helpers/getTimeToNotification.js'
-import { weatherRequest } from '../requests/weatherRequest.js'
-import { weatherNotification } from '../helpers/weatherNotification.js'
-import { DAY_IN_MS } from '../const/DAY_IN_MS.js'
-import { weatherNotificationAddedText } from '../const/weatherNotificationAddedText.js'
-import { weatherNotificationNoTime } from '../const/weatherNotificationNoTime.js'
+import { Composer, Scenes } from 'telegraf'
+import {
+    getTimeToNotification,
+    validateCityWeather,
+    validateTime,
+    weatherNotification
+} from '../helpers/index.js'
+import {
+    weatherNotificationAddedText,
+    weatherNotificationNoTime
+} from '../const/index.js'
 
 //===================================================================================
 
@@ -52,7 +54,7 @@ timeWeatherSubscribe.on('text', async ctx => {
         const city = ctx.wizard.state.data.city
         interval = setInterval(
             () => weatherNotification(ctx, city, interval),
-            DAY_IN_MS
+            DayInMs
         )
         await weatherNotification(ctx, city, interval)
     }, getTimeToNotification(+time.hours, +time.minutes))

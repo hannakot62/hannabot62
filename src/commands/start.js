@@ -1,5 +1,4 @@
-import { enterRecognizedText, enterText } from '../const/enterText.js'
-import stickersMap from '../const/stickersMap.js'
+import { enterRecognizedText, enterText, stickersMap } from '../const/index.js'
 
 export async function start(ctx, db, bot) {
     const username =

@@ -1,18 +1,17 @@
 import { Scenes, session, Telegraf } from 'telegraf'
-import { helpText } from './const/helpText.js'
+import {
+    addTaskScene,
+    attractionsScene,
+    createTaskNotificationScene,
+    eventsScene,
+    foodScene,
+    weatherScene,
+    weatherSubscribeScene
+} from './scenes/index.js'
+import { botCommands, start, textMessage } from './commands/index.js'
+import { helpText } from './const/index.js'
 import { message } from 'telegraf/filters'
-import { weatherScene } from './scenes/weatherScene.js'
-import { attractionsScene } from './scenes/attractionsScene.js'
-import { BotCommands } from './commands/BotCommands.js'
-import { eventsScene } from './scenes/eventsScene.js'
-import { foodScene } from './scenes/foodScene.js'
-import { weatherSubscribeScene } from './scenes/weatherSubscribeScene.js'
-import { addTaskScene } from './scenes/addTaskScene.js'
-import { createTaskNotificationScene } from './scenes/createTaskNotificationScene.js'
-import { allTasks } from './commands/actions/allTasks.js'
-import { todayTasks } from './commands/actions/todayTasks.js'
-import { start } from './commands/start.js'
-import { textMessage } from './commands/textMessage.js'
+import { allTasks, todayTasks } from './commands/actions/index.js'
 
 export const setup = db => {
     const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
@@ -28,7 +27,7 @@ export const setup = db => {
         createTaskNotificationScene
     ])
     bot.use(stage.middleware())
-    bot.telegram.setMyCommands(BotCommands)
+    bot.telegram.setMyCommands(botCommands)
 
     //=========================================================================================
 

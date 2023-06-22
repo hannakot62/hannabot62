@@ -1,7 +1,9 @@
 import { Composer, Scenes } from 'telegraf'
-import { validateTime } from '../helpers/validateTime.js'
-import { validateDate } from '../helpers/validateDate.js'
-import { askAboutTaskNotification } from '../helpers/askAboutTaskNotification.js'
+import {
+    askAboutTaskNotification,
+    validateDate,
+    validateTime
+} from '../helpers/index.js'
 
 //===================================================================================
 

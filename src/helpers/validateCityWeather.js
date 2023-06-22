@@ -1,4 +1,4 @@
-import { weatherRequest } from '../requests/weatherRequest.js'
+import { weatherRequest } from '../requests/index.js'
 
 export async function validateCityWeather(city) {
     let res = await weatherRequest(city)

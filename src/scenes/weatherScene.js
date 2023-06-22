@@ -1,5 +1,5 @@
 import { Composer, Scenes } from 'telegraf'
-import { weatherRequest } from '../requests/weatherRequest.js'
+import { weatherRequest } from '../requests/index.js'
 
 //===================================================================================
 

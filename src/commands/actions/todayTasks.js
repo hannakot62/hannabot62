@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { getTasksText } from '../../helpers/getTasksText.js'
+import { getTasksText } from '../../helpers/index.js'
 
 export async function todayTasks(ctx, db) {
     const tasksCollection = await db.collection('tasks')

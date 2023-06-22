@@ -1,17 +1,18 @@
 import { Composer, Scenes } from 'telegraf'
-import { validateTime } from '../helpers/validateTime.js'
-import { validateDate } from '../helpers/validateDate.js'
 import { ObjectId } from 'mongodb'
-import { getTaskNotificationText } from '../helpers/getTaskNotificationText.js'
 import schedule from 'node-schedule'
+import {
+    getTaskNotificationText,
+    validateDate,
+    validateTime
+} from '../helpers/index.js'
 
 //===================================================================================
 
 export const createTaskNotificationWizard = new Composer()
 createTaskNotificationWizard.on('callback_query', async ctx => {
     ctx.wizard.state.data = {}
-    const id = ctx.scene.state.id
-    const db = ctx.scene.state.db
+    const { id, db } = ctx.scene.state
     const tasksCollection = await db.collection('tasks')
     ctx.wizard.state.data.lastInserted = await tasksCollection.findOne({
         _id: new ObjectId(id)

@@ -1,4 +1,4 @@
-import { cityRequest } from '../requests/cityRequest.js'
+import { cityRequest } from '../requests/index.js'
 
 export async function validateCityRecommendHelper(ctx) {
     const location = (ctx.wizard.state.data.city = ctx.message.text)

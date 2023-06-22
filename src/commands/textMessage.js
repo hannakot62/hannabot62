@@ -1,6 +1,5 @@
-import { pictureRequest } from '../requests/pictureRequest.js'
-import { recommend } from './text/recommend.js'
-import { tasks } from './text/tasks.js'
+import { pictureRequest } from '../requests/index.js'
+import { recommend, tasks } from './text/index.js'
 
 export async function textMessage(ctx) {
     const text = ctx.message.text
