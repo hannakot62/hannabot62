@@ -2,16 +2,14 @@ import { Composer, Scenes } from 'telegraf'
 import { validateTime } from '../helpers/validateTime.js'
 import { validateDate } from '../helpers/validateDate.js'
 import { ObjectId } from 'mongodb'
-import { getDateToNotification } from '../helpers/getDateToNotification.js'
 import { getTaskNotificationText } from '../helpers/getTaskNotificationText.js'
 import schedule from 'node-schedule'
+
+//===================================================================================
 
 export const createTaskNotificationWizard = new Composer()
 createTaskNotificationWizard.on('callback_query', async ctx => {
     ctx.wizard.state.data = {}
-    console.log(
-        'create notification-------------------------------------------'
-    )
     const id = ctx.scene.state.id
     const db = ctx.scene.state.db
     const tasksCollection = await db.collection('tasks')
@@ -23,6 +21,8 @@ createTaskNotificationWizard.on('callback_query', async ctx => {
     )
     return ctx.wizard.next()
 })
+
+//===================================================================================
 
 export const date = new Composer()
 date.on('text', async ctx => {
@@ -43,6 +43,8 @@ date.on('text', async ctx => {
     )
     return ctx.wizard.next()
 })
+
+//===================================================================================
 
 export const time = new Composer()
 time.on('text', async ctx => {
@@ -70,6 +72,8 @@ time.on('text', async ctx => {
     await ctx.reply('Готово!')
     return ctx.scene.leave()
 })
+
+//===================================================================================
 
 export const createTaskNotificationScene = new Scenes.WizardScene(
     'createTaskNotificationScene',

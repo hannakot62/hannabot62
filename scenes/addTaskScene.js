@@ -1,6 +1,9 @@
-import { Composer, Markup, Scenes } from 'telegraf'
+import { Composer, Scenes } from 'telegraf'
 import { validateTime } from '../helpers/validateTime.js'
 import { validateDate } from '../helpers/validateDate.js'
+import { askAboutTaskNotification } from '../helpers/askAboutTaskNotification.js'
+
+//===================================================================================
 
 export const addTaskWizard = new Composer()
 addTaskWizard.on('callback_query', async ctx => {
@@ -9,12 +12,16 @@ addTaskWizard.on('callback_query', async ctx => {
     return ctx.wizard.next()
 })
 
+//===================================================================================
+
 export const title = new Composer()
 title.on('text', async ctx => {
     ctx.wizard.state.data.title = ctx.message.text
     await ctx.reply('Введи описание задачи')
     return ctx.wizard.next()
 })
+
+//===================================================================================
 
 export const description = new Composer()
 description.on('text', async ctx => {
@@ -24,6 +31,8 @@ description.on('text', async ctx => {
     )
     return ctx.wizard.next()
 })
+
+//===================================================================================
 
 export const date = new Composer()
 date.on('text', async ctx => {
@@ -36,6 +45,7 @@ date.on('text', async ctx => {
     await ctx.reply('Введи время задачи в формате HH:mm (например 09:47)')
     return ctx.wizard.next()
 })
+//===================================================================================
 
 export const time = new Composer()
 time.on('text', async ctx => {
@@ -58,20 +68,12 @@ time.on('text', async ctx => {
     const insertedId = lastInserted.insertedId
 
     await ctx.reply('Добавил!')
+    await askAboutTaskNotification(ctx, insertedId)
 
-    await ctx.reply(
-        'Может быть необходимо напоминаниние?',
-        Markup.inlineKeyboard([
-            Markup.button.callback(
-                'Да',
-                `/create_task_notification_${insertedId}`
-            ),
-            Markup.button.callback('Нет', '/do_not_create_task_notification')
-        ])
-    )
-
-    return ctx.scene.leave() //напоминания
+    return ctx.scene.leave()
 })
+
+//===================================================================================
 
 export const addTaskScene = new Scenes.WizardScene(
     'addTaskScene',

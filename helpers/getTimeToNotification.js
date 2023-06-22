@@ -1,11 +1,14 @@
+import { DAY_IN_MS } from '../const/DAY_IN_MS.js'
+
 export function getTimeToNotification(hours, minutes) {
     let ms = 0
-    let now = new Date()
+    const now = new Date()
     let notifyMoment = new Date()
     notifyMoment.setHours(hours, minutes, 0)
+
     if (notifyMoment.getTime() < now.getTime())
-        notifyMoment = new Date(notifyMoment.getTime() + 86400000)
+        notifyMoment = new Date(notifyMoment.getTime() + DAY_IN_MS)
+
     ms = notifyMoment.getTime() - now.getTime()
-    console.log(ms)
     return ms
 }

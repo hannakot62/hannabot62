@@ -1,6 +1,7 @@
 export function getAttractionsText(attractions) {
     let text = ''
     if (!Array.isArray(attractions)) return attractions
+    if (attractions.length === 0) return 'Я ничего не нашёл :('
 
     attractions.forEach(attraction => {
         if (attraction.properties.name) {

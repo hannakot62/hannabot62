@@ -1,8 +1,6 @@
-import { Markup, Scenes, session, Telegraf } from 'telegraf'
-import stickersMap from './const/stickersMap.js'
+import { Scenes, session, Telegraf } from 'telegraf'
 import { helpText } from './const/helpText.js'
 import { message } from 'telegraf/filters'
-import { pictureRequest } from './requests/pictureRequest.js'
 import { weatherScene } from './scenes/weatherScene.js'
 import { attractionsScene } from './scenes/attractionsScene.js'
 import { BotCommands } from './commands/BotCommands.js'
@@ -10,9 +8,11 @@ import { eventsScene } from './scenes/eventsScene.js'
 import { foodScene } from './scenes/foodScene.js'
 import { weatherSubscribeScene } from './scenes/weatherSubscribeScene.js'
 import { addTaskScene } from './scenes/addTaskScene.js'
-import { getTasksText } from './helpers/getTasksText.js'
-import dayjs from 'dayjs'
 import { createTaskNotificationScene } from './scenes/createTaskNotificationScene.js'
+import { allTasks } from './commands/actions/allTasks.js'
+import { todayTasks } from './commands/actions/todayTasks.js'
+import { start } from './commands/start.js'
+import { textMessage } from './commands/textMessage.js'
 
 export const setup = db => {
     const bot = new Telegraf(process.env.TELEGRAM_BOT_ACCESS_TOKEN)
@@ -30,35 +30,17 @@ export const setup = db => {
     bot.use(stage.middleware())
     bot.telegram.setMyCommands(BotCommands)
 
+    //=========================================================================================
+
     bot.start(async ctx => {
-        const username =
-            ctx.message.chat.username ||
-            ctx.message.chat.first_name ||
-            'дружище'
-
-        const chatID = ctx.message.chat.id
-        const usersCollection = await db.collection('users')
-        const user = await usersCollection.findOne({ chatID })
-        if (!user) {
-            await ctx.reply(`Добро пожаловать, ${username}!
-С возможностями бота ты можешь ознакомиться вызвав команду /help`)
-            await ctx.replyWithSticker(stickersMap.get('deal'))
-            await usersCollection.insertOne({ username, chatID })
-        } else {
-            await ctx.reply(`Я тебя узнал, ${username}! 😅
-Привет!`)
-            await ctx.replyWithSticker(stickersMap.get('hello'))
-        }
-
-        await bot.telegram.sendMessage(
-            process.env.CHAT_ID_FOR_LOGS,
-            username + ': logged'
-        )
+        await start(ctx, db, bot)
     })
 
     bot.help(ctx => ctx.reply(helpText))
     bot.on(message('sticker'), ctx => ctx.reply('прикольная картинка :)'))
     bot.hears('хахаха', ctx => ctx.reply('аахахаххахахахах'))
+
+    //=========================================================================================
 
     bot.action('/attractions', async ctx => {
         await ctx.scene.enter('attractionsScene')
@@ -69,150 +51,44 @@ export const setup = db => {
     bot.action('/food', async ctx => {
         await ctx.scene.enter('foodScene')
     })
+
+    //=========================================================================================
+
     bot.action('/allTasks', async ctx => {
-        const tasksCollection = await db.collection('tasks')
-        const id = ctx.update.callback_query.message.chat.id
-        const tasks = await tasksCollection.find({ chatID: id }).toArray()
-        const responseText = getTasksText(tasks)
-        await ctx.replyWithHTML(responseText)
+        await allTasks(ctx, db)
     })
     bot.action('/addTask', async ctx => {
         await ctx.scene.enter('addTaskScene', { db })
     })
     bot.action('/todayTasks', async ctx => {
-        const tasksCollection = await db.collection('tasks')
-        const id = ctx.update.callback_query.message.chat.id
-        let tasks = await tasksCollection.find({ chatID: id }).toArray()
-        tasks = tasks.filter(
-            task => dayjs(dayjs()).format('DD.MM.YYYY') === task.date
-        )
-        const responseText = getTasksText(tasks)
-        await ctx.replyWithHTML(responseText)
+        await todayTasks(ctx, db)
     })
-    // bot.action(/^\/addTaskToDB_(.+)$/, async ctx => {
-    //     const chatID = ctx.update.callback_query.message.chat.id
-    //     console.log(ctx.match)
-    //     const task = {
-    //         title: ctx.match[1],
-    //         description: ctx.match[2],
-    //         date: ctx.match[3],
-    //         time: ctx.match[4],
-    //         chatID
-    //     }
-    //     const tasksCollection = await db.collection('tasks')
-    //     await tasksCollection.insertOne(task)
-    //     await ctx.reply('Добавил!')
-    //
-    //     await ctx.reply(
-    //         'Может быть необходимо напоминаниние?',
-    //         Markup.inlineKeyboard([
-    //             Markup.button.callback(
-    //                 'Да',
-    //                 `/create_task_notification_${task.title},${task.description},${task.date},${task.time}`
-    //             ),
-    //             Markup.button.callback(
-    //                 'Нет',
-    //                 '/do_not_create_task_notification'
-    //             )
-    //         ])
-    //     )
-    // })
-    bot.action(/^\/create_task_notification_(.+)$/, async ctx => {
-        // const task = {
-        //     title: ctx.match[1],
-        //     description: ctx.match[2],
-        //     date: ctx.match[3],
-        //     time: ctx.match[4]
-        // }
-        const id = ctx.match[1]
-        await ctx.scene.enter('createTaskNotificationScene', { id, db })
 
-        //scene чтобы узнать когда напомнить
-        //set timeout с ответом
+    //=========================================================================================
+
+    bot.action(/^\/create_task_notification_(.+)$/, async ctx => {
+        await ctx.answerCbQuery()
+        await ctx.scene.enter('createTaskNotificationScene', {
+            id: ctx.match[1],
+            db
+        })
     })
     bot.action('/do_not_create_task_notification', async ctx => {
+        await ctx.answerCbQuery()
         await ctx.reply('Ну ладно :)')
     })
+
+    //=========================================================================================
+
     bot.action(/^\/weather_unsubscribe_(.+)$/, async ctx => {
         clearInterval(JSON.parse(ctx.match[1]))
         await ctx.reply('Успешная отписка 👍')
     })
 
+    //=========================================================================================
+
     bot.on(message('text'), async ctx => {
-        console.log(ctx.message)
-        const text = ctx.message.text
-        const chatId = ctx.message.chat.id
-        switch (text) {
-            case '/weather': {
-                await ctx.scene.enter('weatherScene')
-                break
-            }
-            case '/cat': {
-                const pictureURL = await pictureRequest('cat')
-                await ctx.replyWithPhoto(pictureURL)
-                break
-            }
-            case '/dog': {
-                const pictureURL = await pictureRequest('dog')
-                await ctx.replyWithPhoto(pictureURL)
-                break
-            }
-            case '/weather_subscribe': {
-                await ctx.scene.enter('weatherSubscribeScene')
-                break
-            }
-            case '/recommend': {
-                await ctx.reply(
-                    'Могу предложить тебе список достопримечательностей, событий или' +
-                        ' мест, где можно вкусно поесть, по городу, который ты укажешь. Выбирай!🤗',
-                    Markup.inlineKeyboard([
-                        [
-                            Markup.button.callback(
-                                'Достопримечательности🗺️',
-                                '/attractions'
-                            )
-                        ],
-                        [
-                            Markup.button.callback('События📆', '/events'),
-                            Markup.button.callback('Еда🍽️', '/food')
-                        ]
-                    ])
-                )
-                break
-            }
-            case '/tasks': {
-                await ctx.reply(
-                    'Что ты хочешь сделать?',
-                    Markup.inlineKeyboard([
-                        [
-                            Markup.button.callback(
-                                'Вывести все задачи📚',
-                                '/allTasks'
-                            )
-                        ],
-                        [
-                            Markup.button.callback(
-                                'Добавить задачу📝',
-                                '/addTask'
-                            )
-                        ],
-                        [
-                            Markup.button.callback(
-                                'Вывести задачи на сегодня📗',
-                                '/todayTasks'
-                            )
-                        ]
-                    ])
-                )
-                break
-            }
-            default: {
-                await ctx.reply(
-                    'Мы говорим на разных языках... Попробуй воспользоваться командой /help'
-                )
-                break
-            }
-        }
+        await textMessage(ctx)
     })
 
     // Enable graceful stop

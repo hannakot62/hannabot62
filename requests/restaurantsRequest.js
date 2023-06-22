@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export async function restaurantsRequest(lat, lon) {
-    let restaurants = await axios
+    let restaurants
+    await axios
         .request({
             method: 'get',
             url: `https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng`,
