@@ -3,9 +3,14 @@ import dayjs from 'dayjs'
 
 export function getWeatherText(weatherObj) {
     const icon = getIcon(weatherObj) ?? ''
-    const sunrise = dayjs.unix(weatherObj.sys.sunrise).format('HH:mm')
-    const sunset = dayjs.unix(weatherObj.sys.sunset).format('HH:mm')
-
+    const sunrise = dayjs
+        .unix(weatherObj.sys.sunrise)
+        .hour(dayjs.unix(weatherObj.sys.sunrise).hour() + 3)
+        .format('HH:mm')
+    const sunset = dayjs
+        .unix(weatherObj.sys.sunset)
+        .hour(dayjs.unix(weatherObj.sys.sunset).hour() + 3)
+        .format('HH:mm')
     return `
 📍${weatherObj.name}: ${weatherObj.weather[0].description} ${icon}
 Температура на данный момент: ${weatherObj.main.temp} °C
