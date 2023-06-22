@@ -1,7 +1,10 @@
+import { checkIfArrayBadResponse } from './checkIfArrayBadResponse.js'
+
 export function getAttractionsText(attractions) {
     let text = ''
-    if (!Array.isArray(attractions)) return attractions
-    if (attractions.length === 0) return 'Я ничего не нашёл :('
+
+    const result = checkIfArrayBadResponse(attractions)
+    if (result) return result
 
     attractions.forEach(attraction => {
         if (attraction.properties.name) {
