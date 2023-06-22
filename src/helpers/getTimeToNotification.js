@@ -4,7 +4,7 @@ export function getTimeToNotification(hours, minutes) {
     let ms = 0
     const now = new Date()
     let notifyMoment = new Date()
-    const timezoneUTCDifferenceHours = hours - now.getTimezoneOffset() / 60
+    const timezoneUTCDifferenceHours = hours + now.getTimezoneOffset() / 60
     notifyMoment.setHours(timezoneUTCDifferenceHours, minutes, 0)
     if (notifyMoment.getTime() < now.getTime())
         notifyMoment = new Date(notifyMoment.getTime() + DAY_IN_MS)
