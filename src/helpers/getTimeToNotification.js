@@ -9,5 +9,7 @@ export function getTimeToNotification(hours, minutes) {
     if (notifyMoment.getTime() < now.getTime())
         notifyMoment = new Date(notifyMoment.getTime() + DAY_IN_MS)
     ms = notifyMoment.getTime() - now.getTime()
+    console.log(new Date())
+    console.log(notifyMoment)
     return ms
 }

@@ -63,6 +63,8 @@ time.on('text', async ctx => {
         +timeValid.hours + new Date().getTimezoneOffset() / 60,
         +timeValid.minutes
     )
+    console.log(new Date())
+    console.log(notifyMoment)
     const job = schedule.scheduleJob(notifyMoment, async () => {
         await ctx.replyWithHTML(
             getTaskNotificationText(ctx.wizard.state.data.lastInserted)
