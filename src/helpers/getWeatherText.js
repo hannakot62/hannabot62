@@ -1,4 +1,4 @@
-import { weatherEmojiMap } from '../const/weatherEmoji.js'
+import { weatherEmojiMap } from '../const/index.js'
 import dayjs from 'dayjs'
 
 export function getWeatherText(weatherObj) {
