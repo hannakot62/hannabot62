@@ -19,14 +19,9 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
-    "build": "webpack --config webpack.config.js"
+    "start": "node src/index.js"
   },
   "author": "hannakot62",
   "license": "ISC",
-  "type": "module",
-  "devDependencies": {
-    "webpack": "^5.88.0",
-    "webpack-cli": "^5.1.4"
-  }
+  "type": "module"
 }
