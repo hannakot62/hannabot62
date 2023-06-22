@@ -16,10 +16,10 @@
   "name": "hannabot62",
   "description": "tg bot for fun",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
     "build": "webpack --config webpack.config.js"
   },
   "author": "hannakot62",
