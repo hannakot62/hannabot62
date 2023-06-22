@@ -12,5 +12,6 @@ export function getTimeToNotification(hours, minutes) {
     console.log(new Date())
     console.log(new Date().getTimezoneOffset() / 60)
     console.log(notifyMoment)
+    console.log(notifyMoment.getTimezoneOffset() / 60)
     return ms
 }
