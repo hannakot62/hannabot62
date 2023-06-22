@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export default {
-    target: 'node',
+    // target: 'node',
     entry: './index.js',
     output: {
         filename: 'bundle.js',
