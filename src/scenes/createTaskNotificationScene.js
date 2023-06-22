@@ -60,7 +60,7 @@ time.on('text', async ctx => {
         +date.year,
         +date.month - 1,
         +date.day,
-        +timeValid.hours,
+        +timeValid.hours - new Date().getTimezoneOffset() / 60,
         +timeValid.minutes
     )
 
