@@ -7,9 +7,7 @@ export function checkCommandsHandler(text) {
     return commands.has(text)
 }
 
-export async function executeCommand(text, ctx) {
-    const { db, bot } = ctx.scene.state
-
+export async function executeCommand(text, ctx, db, bot) {
     switch (text) {
         case '/start': {
             await start(ctx, db, bot)
