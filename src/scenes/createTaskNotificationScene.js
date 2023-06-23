@@ -13,6 +13,7 @@ import {
     enterTaskNotificationTime,
     ready
 } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //===================================================================================
 
@@ -30,8 +31,8 @@ createTaskNotificationWizard.on('callback_query', async ctx => {
 
 //===================================================================================
 
-export const date = new Composer()
-date.on('text', async ctx => {
+export let createTaskDate = new Composer()
+createTaskDate = updateComposer(createTaskDate, async ctx => {
     const dateValid = validateDate(ctx.message.text)
     if (!dateValid) {
         await ctx.reply(cantGetTaskNotificationDate)
@@ -51,8 +52,8 @@ date.on('text', async ctx => {
 
 //===================================================================================
 
-export const time = new Composer()
-time.on('text', async ctx => {
+export let createTaskTime = new Composer()
+createTaskTime = updateComposer(createTaskTime, async ctx => {
     let timeValid = validateTime(ctx.message.text)
     if (!timeValid) {
         await ctx.reply(cantGetTaskNotificationTime)
@@ -83,6 +84,6 @@ time.on('text', async ctx => {
 export const createTaskNotificationScene = new Scenes.WizardScene(
     'createTaskNotificationScene',
     createTaskNotificationWizard,
-    date,
-    time
+    createTaskDate,
+    createTaskTime
 )

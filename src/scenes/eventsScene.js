@@ -2,6 +2,7 @@ import { Composer, Scenes } from 'telegraf'
 import { getEventsText, validateCityRecommendHelper } from '../helpers/index.js'
 import { eventsRequest } from '../requests/index.js'
 import { enterCityName } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //================================================================================
 
@@ -14,8 +15,8 @@ eventsWizard.on('callback_query', async ctx => {
 
 //================================================================================
 
-export const cityEvents = new Composer()
-cityEvents.on('text', async ctx => {
+export let cityEvents = new Composer()
+cityEvents = updateComposer(cityEvents, async ctx => {
     const cityObj = await validateCityRecommendHelper(ctx)
     if (!cityObj?.country) return ctx.scene.leave()
 

@@ -14,6 +14,7 @@ import {
     enterWeatherNotificationTime,
     tryOtherCommands
 } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //===================================================================================
 
@@ -26,8 +27,8 @@ weatherSubscribeWizard.on('text', async ctx => {
 
 //===================================================================================
 
-export const cityWeatherSubscribe = new Composer()
-cityWeatherSubscribe.on('text', async ctx => {
+export let cityWeatherSubscribe = new Composer()
+cityWeatherSubscribe = updateComposer(cityWeatherSubscribe, async ctx => {
     const response = await validateCityWeather(ctx.message.text)
     if (response !== 'ok') {
         await ctx.reply(response)
@@ -41,10 +42,9 @@ cityWeatherSubscribe.on('text', async ctx => {
 
 //===================================================================================
 
-export const timeWeatherSubscribe = new Composer()
-timeWeatherSubscribe.on('text', async ctx => {
+export let timeWeatherSubscribe = new Composer()
+timeWeatherSubscribe = updateComposer(timeWeatherSubscribe, async ctx => {
     let time = validateTime(ctx.message.text)
-    let interval = {}
 
     if (time) {
         await ctx.reply(await weatherNotificationAddedText(ctx))
@@ -53,7 +53,7 @@ timeWeatherSubscribe.on('text', async ctx => {
         await ctx.reply(await weatherNotificationNoTime(ctx))
     }
 
-    interval = setTimeout(async () => {
+    let interval = setTimeout(async () => {
         const city = ctx.wizard.state.data.city
         interval = setInterval(
             () => weatherNotification(ctx, city, interval),

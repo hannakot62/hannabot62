@@ -2,11 +2,11 @@ import { pictureRequest } from '../requests/index.js'
 import { recommend, tasks } from './text/index.js'
 import { defaultReply } from '../const/vars/index.js'
 
-export async function textMessage(ctx) {
+export async function textMessage(ctx, bot, db) {
     const text = ctx.message.text
     switch (text) {
         case '/weather': {
-            await ctx.scene.enter('weatherScene')
+            await ctx.scene.enter('weatherScene', { bot, db })
             break
         }
         case '/cat': {
@@ -20,7 +20,7 @@ export async function textMessage(ctx) {
             break
         }
         case '/weather_subscribe': {
-            await ctx.scene.enter('weatherSubscribeScene')
+            await ctx.scene.enter('weatherSubscribeScene', { bot, db })
             break
         }
         case '/recommend': {

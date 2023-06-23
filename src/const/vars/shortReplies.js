@@ -53,5 +53,6 @@ export const enterWeatherNotificationTime =
     'Введи время для уведомления в формате HH:mm (например 15:48)'
 
 export const ready = 'Готово!'
+export const added = 'Добавил!'
 export const tryOtherCommands = 'Можешь воспользоваться другими командами :)'
 export const unsubscribedSuccessfully = 'Успешная отписка 👍'

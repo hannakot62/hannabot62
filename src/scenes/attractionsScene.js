@@ -5,6 +5,7 @@ import {
 } from '../helpers/index.js'
 import { attractionsRequest } from '../requests/index.js'
 import { enterCityName } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //================================================================================
 
@@ -17,8 +18,8 @@ attractionsWizard.on('callback_query', async ctx => {
 
 //================================================================================
 
-export const cityAttractions = new Composer()
-cityAttractions.on('text', async ctx => {
+export let cityAttractions = new Composer()
+cityAttractions = updateComposer(cityAttractions, async ctx => {
     const cityObj = await validateCityRecommendHelper(ctx)
     if (!cityObj?.lat) return ctx.scene.leave()
 

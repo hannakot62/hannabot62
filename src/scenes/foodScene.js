@@ -5,6 +5,7 @@ import {
 } from '../helpers/index.js'
 import { restaurantsRequest } from '../requests/index.js'
 import { enterCityName } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //================================================================================
 
@@ -17,8 +18,8 @@ foodWizard.on('callback_query', async ctx => {
 
 //================================================================================
 
-export const cityFood = new Composer()
-cityFood.on('text', async ctx => {
+export let cityFood = new Composer()
+cityFood = updateComposer(cityFood, async ctx => {
     const cityObj = await validateCityRecommendHelper(ctx)
     if (!cityObj?.lat) return ctx.scene.leave()
 

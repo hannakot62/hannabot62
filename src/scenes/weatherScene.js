@@ -1,11 +1,13 @@
 import { Composer, Scenes } from 'telegraf'
 import { weatherRequest } from '../requests/index.js'
 import { enterCityName } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //===================================================================================
 
 export const weatherWizard = new Composer()
 weatherWizard.on('text', async ctx => {
+    console.log('wizard')
     ctx.wizard.state.data = {}
     ctx.reply(enterCityName)
     return ctx.wizard.next()
@@ -13,8 +15,9 @@ weatherWizard.on('text', async ctx => {
 
 //===================================================================================
 
-export const city = new Composer()
-city.on('text', async ctx => {
+export let cityWeather = new Composer()
+cityWeather = updateComposer(cityWeather, async ctx => {
+    console.log(ctx.message.text)
     const location = (ctx.wizard.state.data.city = ctx.message.text)
     const weatherText = await weatherRequest(location)
     ctx.reply(weatherText)
@@ -26,5 +29,5 @@ city.on('text', async ctx => {
 export const weatherScene = new Scenes.WizardScene(
     'weatherScene',
     weatherWizard,
-    city
+    cityWeather
 )

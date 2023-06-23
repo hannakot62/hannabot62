@@ -1,16 +1,19 @@
 import { Composer, Scenes } from 'telegraf'
 import {
     askAboutTaskNotification,
+    checkCommandsHandler,
     validateDate,
     validateTime
 } from '../helpers/index.js'
 import {
+    added,
     enterTaskDate,
     enterTaskDescription,
     enterTaskName,
     enterTaskTime,
     tryAddTaskAgain
 } from '../const/vars/index.js'
+import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //===================================================================================
 
@@ -23,8 +26,11 @@ addTaskWizard.on('callback_query', async ctx => {
 
 //===================================================================================
 
-export const title = new Composer()
-title.on('text', async ctx => {
+export let title = new Composer()
+title = updateComposer(title, async ctx => {
+    if (checkCommandsHandler(ctx.message.text, ctx, ctx.scene.state.bot)) {
+        return ctx.scene.leave()
+    }
     ctx.wizard.state.data.title = ctx.message.text
     await ctx.reply(enterTaskDescription)
     return ctx.wizard.next()
@@ -32,8 +38,8 @@ title.on('text', async ctx => {
 
 //===================================================================================
 
-export const description = new Composer()
-description.on('text', async ctx => {
+export let description = new Composer()
+description = updateComposer(description, async ctx => {
     ctx.wizard.state.data.description = ctx.message.text
     await ctx.reply(enterTaskDate)
     return ctx.wizard.next()
@@ -41,8 +47,8 @@ description.on('text', async ctx => {
 
 //===================================================================================
 
-export const date = new Composer()
-date.on('text', async ctx => {
+export let addTaskDate = new Composer()
+addTaskDate = updateComposer(addTaskDate, async ctx => {
     const dateValid = validateDate(ctx.message.text)
     if (!dateValid) {
         //TODO change reject logic
@@ -55,8 +61,8 @@ date.on('text', async ctx => {
 })
 //===================================================================================
 
-export const time = new Composer()
-time.on('text', async ctx => {
+export let addTaskTime = new Composer()
+addTaskTime = updateComposer(addTaskTime, async ctx => {
     const timeValid = validateTime(ctx.message.text)
     if (!timeValid) {
         await ctx.reply(tryAddTaskAgain)
@@ -78,7 +84,7 @@ time.on('text', async ctx => {
     })
     const insertedId = lastInserted.insertedId
 
-    await ctx.reply('Добавил!')
+    await ctx.reply(added)
     await askAboutTaskNotification(ctx, insertedId)
 
     return ctx.scene.leave()
@@ -91,6 +97,6 @@ export const addTaskScene = new Scenes.WizardScene(
     addTaskWizard,
     title,
     description,
-    date,
-    time
+    addTaskDate,
+    addTaskTime
 )

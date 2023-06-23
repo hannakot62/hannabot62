@@ -37,20 +37,20 @@ export const setup = db => {
         await start(ctx, db, bot)
     })
 
-    bot.help(ctx => ctx.reply(helpText))
+    bot.help(async ctx => await ctx.reply(helpText))
     bot.on(message('sticker'), ctx => ctx.reply(nicePic))
     bot.hears('хахаха', ctx => ctx.reply(lol))
 
     //=========================================================================================
 
     bot.action('/attractions', async ctx => {
-        await ctx.scene.enter('attractionsScene')
+        await ctx.scene.enter('attractionsScene', { db, bot })
     })
     bot.action('/events', async ctx => {
-        await ctx.scene.enter('eventsScene')
+        await ctx.scene.enter('eventsScene', { db, bot })
     })
     bot.action('/food', async ctx => {
-        await ctx.scene.enter('foodScene')
+        await ctx.scene.enter('foodScene', { db, bot })
     })
 
     //=========================================================================================
@@ -59,7 +59,7 @@ export const setup = db => {
         await allTasks(ctx, db)
     })
     bot.action('/addTask', async ctx => {
-        await ctx.scene.enter('addTaskScene', { db })
+        await ctx.scene.enter('addTaskScene', { db, bot })
     })
     bot.action('/todayTasks', async ctx => {
         await todayTasks(ctx, db)
@@ -71,7 +71,8 @@ export const setup = db => {
         await ctx.answerCbQuery()
         await ctx.scene.enter('createTaskNotificationScene', {
             id: ctx.match[1],
-            db
+            db,
+            bot
         })
     })
     bot.action('/do_not_create_task_notification', async ctx => {
@@ -90,7 +91,7 @@ export const setup = db => {
     //=========================================================================================
 
     bot.on(message('text'), async ctx => {
-        await textMessage(ctx)
+        await textMessage(ctx, bot, db)
     })
 
     // Enable graceful stop
