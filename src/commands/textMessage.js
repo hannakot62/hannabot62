@@ -4,7 +4,6 @@ import { defaultReply } from '../const/vars/index.js'
 
 export async function textMessage(ctx, bot, db) {
     const text = ctx.message.text
-    console.log('=============================', db)
     switch (text) {
         case '/weather': {
             await ctx.scene.enter('weatherScene', { bot, db })

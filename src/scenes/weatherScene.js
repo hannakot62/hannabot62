@@ -17,7 +17,6 @@ weatherWizard.on('text', async ctx => {
 
 export let cityWeather = new Composer()
 cityWeather = updateComposer(cityWeather, async ctx => {
-    console.log(ctx.message.text)
     const location = (ctx.wizard.state.data.city = ctx.message.text)
     const weatherText = await weatherRequest(location)
     ctx.reply(weatherText)

@@ -10,6 +10,7 @@ import {
     weatherNotificationNoTime
 } from '../const/index.js'
 import {
+    DayInMs,
     enterCityName,
     enterWeatherNotificationTime,
     tryOtherCommands
