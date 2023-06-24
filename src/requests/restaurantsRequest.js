@@ -24,7 +24,9 @@ export async function restaurantsRequest(lat, lon) {
                 'X-RapidAPI-Host': RAPID_API_KEY_HOST_FOOD
             }
         })
-        .then(response => (restaurants = response.data.data))
+        .then(response => {
+            restaurants = response.data.data ?? oops
+        })
         .catch(err => (restaurants = oops))
     return restaurants
 }
