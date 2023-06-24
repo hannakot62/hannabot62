@@ -1,4 +1,4 @@
-import { DayInMs } from '../const/vars/index.js'
+import { DayInMs } from '#vars'
 
 export function getTimeToNotification(hours, minutes) {
     let ms = 0

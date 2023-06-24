@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { MongoClient } from 'mongodb'
 import { setup } from './bot.js'
-import { MONGO_CONNECTION_STRING } from './const/environmentVars/environmentVars.js'
+import { MONGO_CONNECTION_STRING } from '#environmentVars'
 
 const initialize = async () => {
     try {

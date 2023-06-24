@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ATTRACTIONS_ACCESS_KEY } from '../const/environmentVars/environmentVars.js'
-import { foundNothingHere, oops } from '../const/vars/index.js'
+import { foundNothingHere, oops } from '#vars'
 
 export async function attractionsRequest(lat, lon) {
     let attractions

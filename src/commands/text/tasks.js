@@ -1,5 +1,5 @@
 import { Markup } from 'telegraf'
-import { tasksText } from '../../const/vars/index.js'
+import { tasksText } from '#vars'
 
 export async function tasks(ctx) {
     await ctx.reply(

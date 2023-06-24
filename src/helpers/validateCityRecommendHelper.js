@@ -1,5 +1,5 @@
-import { cityRequest } from '../requests/index.js'
-import { foundNothingHere, status400, status404 } from '../const/vars/index.js'
+import { cityRequest } from '#requests'
+import { foundNothingHere, status400, status404 } from '#vars'
 
 export async function validateCityRecommendHelper(ctx) {
     const location = (ctx.wizard.state.data.city = ctx.message.text)

@@ -1,10 +1,7 @@
 import { Composer, Scenes } from 'telegraf'
-import {
-    getAttractionsText,
-    validateCityRecommendHelper
-} from '../helpers/index.js'
-import { attractionsRequest } from '../requests/index.js'
-import { enterCityName } from '../const/vars/index.js'
+import { getAttractionsText, validateCityRecommendHelper } from '#helpers'
+import { attractionsRequest } from '#requests'
+import { enterCityName } from '#vars'
 import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //================================================================================

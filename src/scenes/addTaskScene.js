@@ -4,7 +4,7 @@ import {
     checkCommandsHandler,
     validateDate,
     validateTime
-} from '../helpers/index.js'
+} from '#helpers'
 import {
     added,
     enterTaskDate,
@@ -12,8 +12,8 @@ import {
     enterTaskName,
     enterTaskTime,
     tryAddTaskAgain
-} from '../const/vars/index.js'
-import { updateComposer } from './composers/composersCheckIfCommand.js'
+} from '#vars'
+import { updateComposer } from '#composers/composersCheckIfCommand.js'
 
 //===================================================================================
 

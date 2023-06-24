@@ -11,9 +11,9 @@
     "telegraf-session-mongoose": "^2.0.6"
   },
   "devDependencies": {
+    "eslint": "^8.41.0",
     "nodemon": "^2.0.22",
-    "prettier": "^2.8.8",
-    "eslint": "^8.41.0"
+    "prettier": "^2.8.8"
   },
   "name": "hannabot62",
   "description": "tg bot for fun",
@@ -22,6 +22,19 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
+  },
+  "imports": {
+    "#root/*": ".",
+    "#commands": "./src/commands/index.js",
+    "#actions": "./src/commands/actions/index.js",
+    "#text": "./src/commands/text/index.js",
+    "#const": "./src/const/index.js",
+    "#environmentVars": "./src/const/environmentVars/environmentVars.js",
+    "#vars": "./src/const/vars/index.js",
+    "#helpers": "./src/helpers/index.js",
+    "#requests": "./src/requests/index.js",
+    "#scenes": "./src/scenes/index.js",
+    "#composers/*": "./src/scenes/composers/*"
   },
   "author": "hannakot62",
   "license": "ISC",

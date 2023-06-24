@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import { weekDaysTranslationMap } from '../const/index.js'
-import { checkIfArrayBadResponse } from './checkIfArrayBadResponse.js'
+import { checkIfArrayBadResponse } from '#helpers'
+import { weekDaysTranslationMap } from '#const'
 
 export function getEventsText(events) {
     let text = ''

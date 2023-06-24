@@ -1,5 +1,5 @@
-import { weatherRequest } from '../requests/index.js'
-import { oops, unknownCity } from '../const/vars/index.js'
+import { weatherRequest } from '#requests'
+import { oops, unknownCity } from '#vars'
 
 export async function validateCityWeather(city) {
     let res = await weatherRequest(city)

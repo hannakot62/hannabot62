@@ -1,4 +1,4 @@
-import { foundNothing } from '../const/vars/index.js'
+import { foundNothing } from '#vars'
 
 export function checkIfArrayBadResponse(array) {
     if (!Array.isArray(array)) return array

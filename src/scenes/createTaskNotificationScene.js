@@ -1,19 +1,15 @@
 import { Composer, Scenes } from 'telegraf'
 import { ObjectId } from 'mongodb'
 import schedule from 'node-schedule'
-import {
-    getTaskNotificationText,
-    validateDate,
-    validateTime
-} from '../helpers/index.js'
+import { getTaskNotificationText, validateDate, validateTime } from '#helpers'
 import {
     cantGetTaskNotificationDate,
     cantGetTaskNotificationTime,
     enterTaskNotificationDate,
     enterTaskNotificationTime,
     ready
-} from '../const/vars/index.js'
-import { updateComposer } from './composers/composersCheckIfCommand.js'
+} from '#vars'
+import { updateComposer } from '#composers/composersCheckIfCommand.js'
 
 //===================================================================================
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { PICTURES_ACCESS_TOKEN } from '../const/environmentVars/environmentVars.js'
-import { oops } from '../const/vars/index.js'
+import { PICTURES_ACCESS_TOKEN } from '#environmentVars'
+import { oops } from '#vars'
 
 export const pictureRequest = async searchQuery => {
     let pictureURL = ''

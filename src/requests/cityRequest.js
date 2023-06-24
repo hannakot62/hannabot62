@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { ATTRACTIONS_ACCESS_KEY } from '../const/environmentVars/environmentVars.js'
-import { oops } from '../const/vars/index.js'
+import { ATTRACTIONS_ACCESS_KEY } from '#environmentVars'
+import { oops } from '#vars'
 
 export async function cityRequest(city) {
     let cityObj

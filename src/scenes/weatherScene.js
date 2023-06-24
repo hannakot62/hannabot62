@@ -1,13 +1,12 @@
 import { Composer, Scenes } from 'telegraf'
-import { weatherRequest } from '../requests/index.js'
-import { enterCityName } from '../const/vars/index.js'
+import { weatherRequest } from '#requests'
+import { enterCityName } from '#vars'
 import { updateComposer } from './composers/composersCheckIfCommand.js'
 
 //===================================================================================
 
 export const weatherWizard = new Composer()
 weatherWizard.on('text', async ctx => {
-    console.log('wizard')
     ctx.wizard.state.data = {}
     ctx.reply(enterCityName)
     return ctx.wizard.next()

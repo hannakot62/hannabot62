@@ -4,18 +4,15 @@ import {
     validateCityWeather,
     validateTime,
     weatherNotification
-} from '../helpers/index.js'
-import {
-    weatherNotificationAddedText,
-    weatherNotificationNoTime
-} from '../const/index.js'
+} from '#helpers'
+import { weatherNotificationAddedText, weatherNotificationNoTime } from '#const'
 import {
     DayInMs,
     enterCityName,
     enterWeatherNotificationTime,
     tryOtherCommands
-} from '../const/vars/index.js'
-import { updateComposer } from './composers/composersCheckIfCommand.js'
+} from '#vars'
+import { updateComposer } from '#composers/composersCheckIfCommand.js'
 
 //===================================================================================
 

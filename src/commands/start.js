@@ -1,6 +1,5 @@
-import { enterRecognizedText, enterText, stickersMap } from '../const/index.js'
-import { CHAT_ID_FOR_LOGS } from '../const/environmentVars/environmentVars.js'
-import { usernameAlternative } from '../const/vars/index.js'
+import { enterRecognizedText, enterText, stickersMap } from '#const'
+import { CHAT_ID_FOR_LOGS } from '#environmentVars'
 
 export async function start(ctx, db, bot) {
     const username =

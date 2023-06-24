@@ -1,9 +1,6 @@
 import axios from 'axios'
-import {
-    RAPID_API_KEY,
-    RAPID_API_KEY_HOST_FOOD
-} from '../const/environmentVars/environmentVars.js'
-import { oops } from '../const/vars/index.js'
+import { RAPID_API_KEY, RAPID_API_KEY_HOST_FOOD } from '#environmentVars'
+import { oops } from '#vars'
 
 export async function restaurantsRequest(lat, lon) {
     let restaurants

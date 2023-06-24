@@ -1,6 +1,6 @@
-import { pictureRequest } from '../requests/index.js'
-import { recommend, tasks } from './text/index.js'
-import { defaultReply } from '../const/vars/index.js'
+import { pictureRequest } from '#requests'
+import { recommend, tasks } from '#text'
+import { defaultReply } from '#vars'
 
 export async function textMessage(ctx, bot, db) {
     const text = ctx.message.text

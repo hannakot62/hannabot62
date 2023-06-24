@@ -1,5 +1,5 @@
-import { botCommands, start, textMessage } from '../commands/index.js'
-import { helpText } from '../const/index.js'
+import { botCommands, start, textMessage } from '#commands'
+import { helpText } from '#const'
 
 export const commands = new Set(botCommands.map(command => command.command))
 

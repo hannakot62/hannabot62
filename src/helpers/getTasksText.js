@@ -1,4 +1,4 @@
-import { noTasks } from '../const/vars/index.js'
+import { noTasks } from '#vars'
 
 export function getTasksText(tasks) {
     let text = ''

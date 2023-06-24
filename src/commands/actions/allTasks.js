@@ -1,4 +1,4 @@
-import { getTasksText } from '../../helpers/index.js'
+import { getTasksText } from '#helpers'
 
 export async function allTasks(ctx, db) {
     const tasksCollection = await db.collection('tasks')

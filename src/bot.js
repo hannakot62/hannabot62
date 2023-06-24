@@ -7,13 +7,13 @@ import {
     foodScene,
     weatherScene,
     weatherSubscribeScene
-} from './scenes/index.js'
-import { botCommands, start, textMessage } from './commands/index.js'
-import { helpText } from './const/index.js'
+} from '#scenes'
+import { botCommands, start, textMessage } from '#commands'
+import { helpText } from '#const'
 import { message } from 'telegraf/filters'
-import { allTasks, todayTasks } from './commands/actions/index.js'
-import { TELEGRAM_BOT_ACCESS_TOKEN } from './const/environmentVars/environmentVars.js'
-import { lol, nicePic, unsubscribedSuccessfully } from './const/vars/index.js'
+import { allTasks, todayTasks } from '#actions'
+import { TELEGRAM_BOT_ACCESS_TOKEN } from '#environmentVars'
+import { lol, nicePic, unsubscribedSuccessfully } from '#vars'
 
 export const setup = db => {
     const bot = new Telegraf(TELEGRAM_BOT_ACCESS_TOKEN)

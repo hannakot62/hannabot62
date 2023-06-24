@@ -1,5 +1,5 @@
 import { Markup } from 'telegraf'
-import { askAboutTaskNotificationReply } from '../const/vars/index.js'
+import { askAboutTaskNotificationReply } from '#vars'
 
 export async function askAboutTaskNotification(ctx, insertedId) {
     await ctx.reply(

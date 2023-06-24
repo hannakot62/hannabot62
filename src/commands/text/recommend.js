@@ -1,5 +1,5 @@
 import { Markup } from 'telegraf'
-import { recommendText } from '../../const/vars/index.js'
+import { recommendText } from '#vars'
 
 export async function recommend(ctx) {
     await ctx.reply(

@@ -1,4 +1,4 @@
-import { checkIfArrayBadResponse } from './checkIfArrayBadResponse.js'
+import { checkIfArrayBadResponse } from '#helpers'
 
 export function getAttractionsText(attractions) {
     let text = ''

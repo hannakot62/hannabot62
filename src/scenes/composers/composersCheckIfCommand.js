@@ -1,4 +1,4 @@
-import { checkCommandsHandler, executeCommand } from '../../helpers/index.js'
+import { checkCommandsHandler, executeCommand } from '#helpers'
 
 export function updateComposer(comp, handler) {
     return comp.on('text', async ctx => {
