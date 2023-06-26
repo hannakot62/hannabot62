@@ -14,6 +14,7 @@ import {
     tryAddTaskAgain
 } from '#vars'
 import { updateComposer } from '#composers/composersCheckIfCommand.js'
+import { addTask } from '#dbOperations'
 
 //===================================================================================
 
@@ -78,11 +79,8 @@ addTaskTime = updateComposer(addTaskTime, async ctx => {
     const task = { title, description, date, time, chatID }
 
     const db = ctx.scene.state.db
-    const tasksCollection = await db.collection('tasks')
-    const lastInserted = await tasksCollection.insertOne({
-        ...task
-    })
-    const insertedId = lastInserted.insertedId
+
+    const insertedId = await addTask(db, task).insertedId
 
     await ctx.reply(added)
     await askAboutTaskNotification(ctx, insertedId)

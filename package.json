@@ -26,6 +26,7 @@
   "imports": {
     "#root/*": ".",
     "#commands": "./src/commands/index.js",
+    "#dbOperations": "./src/dbOperations/index.js",
     "#actions": "./src/commands/actions/index.js",
     "#text": "./src/commands/text/index.js",
     "#const": "./src/const/index.js",
