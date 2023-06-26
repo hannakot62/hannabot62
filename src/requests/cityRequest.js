@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { ATTRACTIONS_ACCESS_KEY } from '#environmentVars'
 import { oops } from '#vars'
+import { cityURL } from '#urls'
 
 export async function cityRequest(city) {
     let cityObj
     await axios
-        .get(
-            `http://api.opentripmap.com/0.1/ru/places/geoname?apikey=${ATTRACTIONS_ACCESS_KEY}`,
-            { params: { name: city } }
-        )
+        .get(cityURL, {
+            params: { apikey: ATTRACTIONS_ACCESS_KEY, name: city }
+        })
         .then(async response => {
             cityObj = await response.data
         })

@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { RAPID_API_KEY, RAPID_API_KEY_HOST_FOOD } from '#environmentVars'
 import { oops } from '#vars'
+import { restaurantsURL } from '#urls'
 
 export async function restaurantsRequest(lat, lon) {
     let restaurants
     await axios
         .request({
             method: 'get',
-            url: `https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng`,
+            url: restaurantsURL,
             params: {
                 distance: '10',
                 open_now: 'false',
